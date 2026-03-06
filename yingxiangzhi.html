@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>庄浪影像志</title>
+  <!-- Tailwind CSS v3 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- AOS - Animate On Scroll -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#653523',
+            secondary: '#EEB88A',
+            dark: '#5A5C56',
+            light: '#F5F5F5',
+            accent: '#019485',
+            'bg-gray-200': '#557937'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          spacing: {
+            '128': '32rem',
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-in-out',
+            'slide-up': 'slideUp 0.5s ease-in-out',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+          },
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+      .text-shadow-lg {
+        text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+      }
+      .backdrop-blur {
+        backdrop-filter: blur(8px);
+      }
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .masonry-grid {
+        column-count: 1;
+        column-gap: 1rem;
+      }
+      @media (min-width: 640px) {
+        .masonry-grid {
+          column-count: 2;
+        }
+      }
+      @media (min-width: 768px) {
+        .masonry-grid {
+          column-count: 3;
+        }
+      }
+      @media (min-width: 1024px) {
+        .masonry-grid {
+          column-count: 4;
+        }
+      }
+      .masonry-item {
+        break-inside: avoid;
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+</head>
+<body class="bg-light text-dark">
+  <!-- 导航栏 -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+      <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center">
+        <h1 class="text-2xl font-bold text-yellow-800">
+          庄浪数字文化资源平台
+        </h1>
+      </div>
+        
+      <div class="flex items-center space-x-6">
+        <a href="index.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">首页</a>
+        <a href="ziyuanku.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字资源库</a>
+        <a href="yingxiangzhi.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字影像志</a>
+        <a href="wenlvguan.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字文旅馆</a>
+        </button>
+            </div>
+        </nav>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="#" class="text-primary hover:text-accent transition-colors py-2">首页</a>
+                <a href="#about" class="hover:text-primary transition-colors py-2">数字资源库</a>
+                <a href="#resources" class="hover:text-primary transition-colors py-2">数字影像志</a>
+                <a href="#gallery" class="hover:text-primary transition-colors py-2">数字文旅馆</a>
+                <a href="#contact" class="hover:text-primary transition-colors py-2">联系我们</a>
+            </div>
+        </div>
+    </header>
+
+  <!-- 首页大图 Hero Section -->
+  <header class="relative h-screen flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2VEmwf/TmEUgtj9EK6.7V8ajmQrEEyYtcLsZL9YcyODfxB0IesmTIur4LWfYJE0KOZULdXWj8v638Dy*6HXlRzuilmM76K511YhXuSIK.jd6bCFdYs!/b&bo=YAlABmAYQBABCSk!&rf=viewer_4" 
+           alt="庄浪记忆" 
+           class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    </div>
+    <div class="container mx-auto px-4 z-10 text-center" data-aos="fade-up" data-aos-duration="1000">
+      <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 text-shadow-lg">庄浪记忆</h1>
+      <p class="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto text-shadow">
+        记录庄浪的自然风光、人文历史与生活点滴
+      </p>
+      <a href="#gallery" class="bg-primary hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 hover:shadow-lg inline-block">
+        浏览照片墙
+      </a>
+    </div>
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+      <a href="#gallery" class="text-white text-4xl">
+        <i class="fa fa-angle-down"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- 照片墙预览 -->
+  <section id="gallery" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-12" data-aos="fade-up">照片墙预览</h2>
+      <div class="masonry-grid">
+        <!-- 预览图片，随机从各分类选择 -->
+        <div class="masonry-item" data-aos="fade-up" data-aos-delay="100">
+          <div class="relative overflow-hidden rounded-lg shadow-md group">
+            <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX4dpWYJ/TmEUgtj9EK6.7V8ajmQrEJkVK5hdYko3E215Bw6VbxF5rF4DVgWTdnH57mQj4jExI5TdBSAFjWCoGKpPu1O7vhKrXW7SoSL6Vz59cuBE2GA!/b&bo=zgQzA84EMwMBCS4!&rf=viewer_4" 
+                 alt="庄浪风景" 
+                 class="w-full h-auto transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-4 text-white">
+                <h3 class="font-bold">庄浪风景</h3>
+                <p class="text-sm">山水之间，自然之美</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="masonry-item" data-aos="fade-up" data-aos-delay="200">
+          <div class="relative overflow-hidden rounded-lg shadow-md group">
+            <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX1Of2Me/TmEUgtj9EK6.7V8ajmQrEHW.LBm3IIySgGuf.Ql2XC4vS3oAIMy8ceYoyBkvG6G2uhwrjF8GGivpDK2XcLrcJxhIuQbk1LZ1ZRmqofESvQA!/b&bo=KAI8AygCPAMBCS4!&rf=viewer_4" 
+                 alt="人物照片" 
+                 class="w-full h-auto transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-4 text-white">
+                <h3 class="font-bold">人物照片</h3>
+                <p class="text-sm">庄浪人民的精神面貌</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="masonry-item" data-aos="fade-up" data-aos-delay="300">
+          <div class="relative overflow-hidden rounded-lg shadow-md group">
+            <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEHJEHPC0o99dRSTBESroBRQhjJv2y1NJNBfAAwIhmvOmJJZr09U9.mD.xaNG4.bZMLdrWrnPdC3fnHBz.EG9UbU!/b&bo=QAbnCMIMKxIBCXA!&rf=viewer_4" 
+                 alt="日新小学" 
+                 class="w-full h-auto transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-4 text-white">
+                <h3 class="font-bold">日新小学共创</h3>
+                <p class="text-sm">教育的希望与未来</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="masonry-item" data-aos="fade-up" data-aos-delay="400">
+          <div class="relative overflow-hidden rounded-lg shadow-md group">
+            <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX1QUFoj/TmEUgtj9EK6.7V8ajmQrEJuQzaskOx8FsD81SSEJe97EWy18o8h9HNacQOjoF6zCc8brI23gIi14JvJZTxzCyhWqOJ3quTHFIrfJP2G0vxc!/b&bo=eAWmA3gFpgMBCS4!&rf=viewer_4" 
+                 alt="民俗活动" 
+                 class="w-full h-auto transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-4 text-white">
+                <h3 class="font-bold">民俗活动</h3>
+                <p class="text-sm">传统文化的传承与发展</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="masonry-item" data-aos="fade-up" data-aos-delay="500">
+          <div class="relative overflow-hidden rounded-lg shadow-md group">
+            <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX4GpXfo/TmEUgtj9EK6.7V8ajmQrEPpnCzSi2nVbCoRGd1VsxHGUI22HPRYu5Rkko30CxbhAScrRif6p9zFPAjwSSon7Ox6SRy0Jeyxs963ogYhJyEk!/b&bo=VQhABsAMkAkDCWI!&rf=viewer_4" 
+                 alt="环境风光" 
+                 class="w-full h-auto transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-4 text-white">
+                <h3 class="font-bold">环境风光</h3>
+                <p class="text-sm">庄浪的自然环境与生态</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="masonry-item" data-aos="fade-up" data-aos-delay="600">
+          <div class="relative overflow-hidden rounded-lg shadow-md group">
+            <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2VEmwf/TmEUgtj9EK6.7V8ajmQrECsVRLTkL20FA3hXq1SyBoCpdJyGOw*Kpebd9bje2iuU5tJRiyMHnbJZ*a74GleWfw57A7dZPbC2xYZcTiHCpfk!/b&bo=YAlABmAYQBABCSk!&rf=viewer_4" 
+                 alt="洋芋特产" 
+                 class="w-full h-auto transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-4 text-white">
+                <h3 class="font-bold">洋芋特产</h3>
+                <p class="text-sm">庄浪的特色农产品</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-12">
+        <a href="#categories" class="bg-secondary hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 hover:shadow-lg inline-block">
+          查看全部分类
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 分类浏览 -->
+  <section id="categories" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-12" data-aos="fade-up">分类浏览</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- 庄浪照片 -->
+        <div class="bg-gray-50 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="100">
+          <div class="relative h-60 overflow-hidden">
+            <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX4dpWYJ/TmEUgtj9EK6.7V8ajmQrEJkVK5hdYko3E215Bw6VbxF5rF4DVgWTdnH57mQj4jExI5TdBSAFjWCoGKpPu1O7vhKrXW7SoSL6Vz59cuBE2GA!/b&bo=zgQzA84EMwMBCS4!&rf=viewer_4" 
+                 alt="庄浪照片" 
+                 class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            <div class="absolute top-4 right-4 bg-primary text-white text-sm font-bold px-3 py-1 rounded-full">
+              71张
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold mb-2">庄浪照片</h3>
+            <p class="text-gray-600 mb-4">展示庄浪县的自然风光、城市建设和人文景观，展现这片土地的独特魅力。</p>
+             <a href="yingxiangzhi1.html" class="bg-primary hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors inline-block">
+              查看照片
+             </a>
+            </button>
+          </div>
+        </div>
+        
+        <!-- 人物像片 -->
+        <div class="bg-gray-50 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="200">
+          <div class="relative h-60 overflow-hidden">
+            <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX1Of2Me/TmEUgtj9EK6.7V8ajmQrEEBnpTLb8xiwJufVX7CG9NbngYtTN0jxTndgIY9jOW7b8bWQcYfBPLncBga1Q5awAzyJsSKMPntI1fgGfzI.EcU!/b&bo=QAZdCbAPgBcBCRQ!&rf=viewer_4" 
+                 alt="人物像片" 
+                 class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            <div class="absolute top-4 right-4 bg-primary text-white text-sm font-bold px-3 py-1 rounded-full">
+              75张
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold mb-2">人物像片</h3>
+            <p class="text-gray-600 mb-4">记录庄浪人民的生活面貌、工作场景和精神状态，展现当地人的风采。</p>
+             <a href="yingxiangzhi2.html" class="bg-primary hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors inline-block">
+              查看照片
+             </a>
+          </div>
+        </div>
+        
+        <!-- 日新小学共创 -->
+        <div class="bg-gray-50 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="300">
+          <div class="relative h-60 overflow-hidden">
+            <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrECsVRLTkL20FA3hXq1SyBoA0SmtBI4rrSeLizLgTrO1FiG5YwfAGd1V0imWFVJ030B3NSaVYegqaJx9L9bafZ1Q!/b&bo=AAXyBvIGAAUBCS4!&rf=viewer_4" 
+                 alt="日新小学共创" 
+                 class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            <div class="absolute top-4 right-4 bg-primary text-white text-sm font-bold px-3 py-1 rounded-full">
+              64张
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold mb-2">日新小学共创</h3>
+            <p class="text-gray-600 mb-4">记录日新小学的教育活动、师生互动和校园生活，展现教育的力量。</p>
+             <a href="yingxiangzhi3.html" class="bg-primary hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors inline-block">
+              查看照片
+             </a>
+          </div>
+        </div>
+        
+        <!-- 事迹 -->
+        <div class="bg-gray-50 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="400">
+          <div class="relative h-60 overflow-hidden">
+            <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrEOx.hfQdEvwy0XDynAULWa1JFcoLEx0UcZMwaNDxl9W5PSP*ynAS3dEitNo8NmimLGZi4l.MHE6nHhxlQmd9XUQ!/b&bo=YAlABhAOYAkBaRY!&rf=viewer_4" 
+                 alt="事迹" 
+                 class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            <div class="absolute top-4 right-4 bg-primary text-white text-sm font-bold px-3 py-1 rounded-full">
+              14张
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold mb-2">事迹</h3>
+            <p class="text-gray-600 mb-4">记录庄浪县的重要事件、先进事迹和发展历程，展现地方发展的足迹。</p>
+             <a href="yingxiangzhi4.html" class="bg-primary hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors inline-block">
+              查看照片
+             </a>
+          </div>
+        </div>
+        
+        <!-- 民俗 -->
+        <div class="bg-gray-50 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="500">
+          <div class="relative h-60 overflow-hidden">
+            <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX1QUFoj/TmEUgtj9EK6.7V8ajmQrEKGuRC1wh7oAIzJXcnbKkjoUS79Uym86kcQPRIZmm6dJZo7NIWmfwDFijFzuZEsSIav9nYaMZDFMAs4Wd9vjlH0!/b&bo=IAMSAiADEgIBCS4!&rf=viewer_4" 
+                 alt="民俗" 
+                 class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            <div class="absolute top-4 right-4 bg-primary text-white text-sm font-bold px-3 py-1 rounded-full">
+              21张
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold mb-2">民俗</h3>
+            <p class="text-gray-600 mb-4">展示庄浪县的传统民俗活动、节日庆典和文化遗产，传承和弘扬传统文化。</p>
+             <a href="yingxiangzhi5.html" class="bg-primary hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors inline-block">
+              查看照片
+             </a>
+          </div>
+        </div>
+        
+        <!-- 环境 -->
+        <div class="bg-gray-50 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="600">
+          <div class="relative h-60 overflow-hidden">
+            <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX4GpXfo/TmEUgtj9EK6.7V8ajmQrEAfyOJAtNWCDiw6U2ROJ3DaenP3.uRxOIj*xry*9lKGKGeAzngpuH5DBHCZnzE0MvlInfCTzQ0I.cHgAgUikviQ!/b&bo=tAiAAgwxFg4BCTU!&rf=viewer_4" 
+                 alt="环境" 
+                 class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            <div class="absolute top-4 right-4 bg-primary text-white text-sm font-bold px-3 py-1 rounded-full">
+              36张
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold mb-2">环境</h3>
+            <p class="text-gray-600 mb-4">记录庄浪县的自然环境、生态保护，展现美丽家园的面貌。</p>
+             <a href="yingxiangzhi6.html" class="bg-primary hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors inline-block">
+              查看照片
+             </a>
+          </div>
+        </div>
+        
+        <!-- 洋芋 -->
+        <div class="bg-gray-50 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow mx-auto md:mx-0 md:col-span-2 lg:col-span-1" data-aos="fade-up" data-aos-delay="700">
+          <div class="relative h-60 overflow-hidden">
+            <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX4GpXfo/TmEUgtj9EK6.7V8ajmQrEEpIC1B722o6B..yXLBjkdXUDpyO1xGghJBPgP3XEoeYhwYISau7*2SOMANvAaGv8gMxcK*vlNrVcWTvYsM2O5Q!/b&bo=QAZfCVgVACABCVM!&rf=viewer_4" 
+                 alt="洋芋" 
+                 class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            <div class="absolute top-4 right-4 bg-primary text-white text-sm font-bold px-3 py-1 rounded-full">
+              34张
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold mb-2">洋芋</h3>
+            <p class="text-gray-600 mb-4">展示庄浪县的洋芋种植、加工和特色美食。</p>
+             <a href="yingxiangzhi7.html" class="bg-primary hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors inline-block">
+              查看照片
+             </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 照片查看器模态框 -->
+  <div id="photo-viewer" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black bg-opacity-90"></div>
+    <div class="container mx-auto px-4 h-full flex flex-col justify-center items-center relative z-10">
+      <button id="close-viewer" class="absolute top-4 right-4 text-white text-3xl hover:text-gray-300 transition-colors">
+        <i class="fa fa-times"></i>
+      </button>
+      
+      <div class="w-full max-w-4xl">
+        <div class="relative">
+          <img id="viewer-image" src="#" alt="查看照片" class="w-full h-auto max-h-[70vh] object-contain rounded-lg">
+          
+          <button id="prev-image" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+            <i class="fa fa-angle-left"></i>
+          </button>
+          
+          <button id="next-image" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+            <i class="fa fa-angle-right"></i>
+          </button>
+        </div>
+        
+        <div class="mt-4 text-white">
+          <h3 id="viewer-title" class="text-xl font-bold mb-2"></h3>
+          <p id="viewer-description" class="text-gray-300"></p>
+          <div class="mt-2 flex justify-between items-center">
+            <span id="viewer-counter" class="text-sm text-gray-400"></span>
+            <div class="flex space-x-4">
+              <button id="viewer-download" class="text-white hover:text-primary transition-colors">
+                <i class="fa fa-download mr-1"></i> 下载
+              </button>
+              <button id="viewer-share" class="text-white hover:text-primary transition-colors">
+                <i class="fa fa-share-alt mr-1"></i> 分享
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 分类照片展示区域 -->
+  <div id="category-gallery" class="fixed inset-0 z-40 hidden bg-white overflow-y-auto">
+    <div class="container mx-auto px-4 py-20">
+      <div class="flex justify-between items-center mb-8">
+        <h2 id="gallery-title" class="text-3xl font-bold"></h2>
+        <button id="close-gallery" class="text-2xl hover:text-gray-500 transition-colors">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      
+      <div id="gallery-container" class="masonry-grid">
+        <!-- 照片将通过JavaScript动态加载 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 关于项目 -->
+  <section id="about" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-12" data-aos="fade-up">关于项目</h2>
+      
+      <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+        <div class="p-8">
+          <h3 class="text-2xl font-bold mb-4">庄浪记忆照片墙</h3>
+          <p class="text-gray-600 mb-4">
+            "庄浪记忆"照片墙项目旨在通过影像记录和展示庄浪县的自然风光、人文历史、民俗文化和社会发展，
+            为后人留下珍贵的历史资料，同时也为外界了解庄浪提供一个直观的窗口。
+          </p>
+          <p class="text-gray-600 mb-4">
+            本项目收集了288张照片，分为七大类别：庄浪照片（74张）、人物像片（75张）、日新小学共创（64张）、
+            事迹（14张）、民俗（21张）、环境（36张）和洋芋（34张）。这些照片从不同角度展现了庄浪的魅力和特色。
+          </p>
+          <p class="text-gray-600">
+            我们希望通过这个项目，能够唤起人们对庄浪的美好记忆，激发更多人关注和参与到庄浪的建设和发展中来，
+            共同创造庄浪更加美好的未来。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="bg-dark text-white py-6">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- 关于我们 -->
+        <div data-aos="fade-up">
+          <h3 class="text-lg font-semibold mb-4">关于我们</h3>
+          <p class="text-gray-400 mb-4">致力于庄浪县文化遗产的数字化保护、研究和传播，让千年文明焕发新的生机。</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-facebook"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-twitter"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- 快速链接 -->
+        <div data-aos="fade-up" data-aos-delay="100">
+          <h3 class="text-lg font-semibold mb-4">快速链接</h3>
+          <ul class="space-y-2">
+            <li><a href="home.html" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+            <li><a href="ziyuanku.html" class="text-gray-400 hover:text-white transition-colors">数字资源库</a></li>
+            <li><a href="yingxiangzhi.html" class="text-gray-400 hover:text-white transition-colors">数字影像志</a></li>
+            <li><a href="wenlvguan.html" class="text-gray-400 hover:text-white transition-colors">数字文旅馆</a></li>
+          </ul>
+        </div>
+        
+        <!-- 联系方式 -->
+        <div data-aos="fade-up" data-aos-delay="200">
+          <h3 class="text-lg font-semibold mb-4">联系方式</h3>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <i class="fa fa-map-marker text-gray-400 mt-1 mr-2"></i>
+              <span class="text-gray-400">甘肃省平凉市庄浪县北滨河路与紫荆北街交叉口</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-phone text-gray-400 mr-2"></i>
+              <span class="text-gray-400">8888-8888</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-envelope text-gray-400 mr-2"></i>
+              <span class="text-gray-400">info@zhuanglangwenwuziyuan.com</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- 营业时间 -->
+        <div data-aos="fade-up" data-aos-delay="300">
+        
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+        <p class="text-gray-400">© 2025 平凉市庄浪县. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 返回顶部按钮 -->
+  <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary hover:bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all transform hover:scale-110 opacity-0 invisible">
+    <i class="fa fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // 初始化AOS动画库
+    document.addEventListener('DOMContentLoaded', function() {
+      AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+      });
+      
+      // 导航栏滚动效果
+      const navbar = document.getElementById('navbar');
+      const backToTop = document.getElementById('back-to-top');
+      
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 100) {
+          navbar.classList.add('bg-dark', 'bg-opacity-90', 'backdrop-blur', 'shadow-lg');
+          navbar.classList.remove('bg-transparent');
+          
+          backToTop.classList.remove('opacity-0', 'invisible');
+          backToTop.classList.add('opacity-100', 'visible');
+        } else {
+          navbar.classList.remove('bg-dark', 'bg-opacity-90', 'backdrop-blur', 'shadow-lg');
+          navbar.classList.add('bg-transparent');
+          
+          backToTop.classList.add('opacity-0', 'invisible');
+          backToTop.classList.remove('opacity-100', 'visible');
+        }
+      });
+      
+      // 移动端菜单
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      mobileMenuButton.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+      });
+      
+      // 返回顶部按钮
+      backToTop.addEventListener('click', function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+      
+      // 照片数据 - 使用模拟数据，实际应用中应该有完整的照片数据
+      const photoData = {
+        zhuanglang: {
+          title: "庄浪照片",
+          count: 74,
+          photos: Array(74).fill().map((_, i) => ({
+            src: "#",
+            title: `庄浪照片 ${i + 1}`,
+            description: "庄浪县的自然风光和人文景观。"
+          }))
+        },
+        people: {
+          title: "人物像片",
+          count: 75,
+          photos: Array(75).fill().map((_, i) => ({
+            src: "#",
+            title: `人物像片 ${i + 1}`,
+            description: "庄浪人民的生活面貌和工作场景。"
+          }))
+        },
+        school: {
+          title: "日新小学共创",
+          count: 64,
+          photos: Array(64).fill().map((_, i) => ({
+            src: "#",
+            title: `日新小学 ${i + 1}`,
+            description: "日新小学的教育活动和校园生活。"
+          }))
+        },
+        events: {
+          title: "事迹",
+          count: 14,
+          photos: Array(14).fill().map((_, i) => ({
+            src: "#",
+            title: `事迹 ${i + 1}`,
+            description: "庄浪县的重要事件和发展历程。"
+          }))
+        },
+        folklore: {
+          title: "民俗",
+          count: 21,
+          photos: Array(21).fill().map((_, i) => ({
+            src: "#",
+            title: `民俗 ${i + 1}`,
+            description: "庄浪县的传统民俗活动和文化遗产。"
+          }))
+        },
+        environment: {
+          title: "环境",
+          count: 36,
+          photos: Array(36).fill().map((_, i) => ({
+            src: "#",
+            title: `环境 ${i + 1}`,
+            description: "庄浪县的自然环境和生态保护。"
+          }))
+        },
+        potato: {
+          title: "洋芋",
+          count: 34,
+          photos: Array(34).fill().map((_, i) => ({
+            src: "#",
+            title: `洋芋 ${i + 1}`,
+            description: "庄浪县的洋芋种植和特色美食。"
+          }))
+        }
+      };
+      
+      // 当前查看的分类和照片索引
+      let currentCategory = '';
+      let currentPhotoIndex = 0;
+      
+      // 分类按钮点击事件
+      const categoryButtons = document.querySelectorAll('.category-btn');
+      const categoryGallery = document.getElementById('category-gallery');
+      const galleryTitle = document.getElementById('gallery-title');
+      const galleryContainer = document.getElementById('gallery-container');
+      const closeGallery = document.getElementById('close-gallery');
+      
+      categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const category = this.getAttribute('data-category');
+          currentCategory = category;
+          
+          // 设置标题
+          galleryTitle.textContent = photoData[category].title + ` (${photoData[category].count}张)`;
+          
+          // 清空容器
+          galleryContainer.innerHTML = '';
+          
+          // 添加照片
+          photoData[category].photos.forEach((photo, index) => {
+            const photoElement = document.createElement('div');
+            photoElement.className = 'masonry-item';
+            photoElement.setAttribute('data-aos', 'fade-up');
+            photoElement.setAttribute('data-aos-delay', (index % 6) * 100);
+            
+            photoElement.innerHTML = `
+              <div class="relative overflow-hidden rounded-lg shadow-md group cursor-pointer">
+                <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
+                  <i class="fa fa-image text-4xl text-gray-400"></i>
+                  <span class="ml-2 text-gray-500">${photo.title}</span>
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                  <div class="p-4 text-white">
+                    <h3 class="font-bold">${photo.title}</h3>
+                    <p class="text-sm">${photo.description}</p>
+                  </div>
+                </div>
+              </div>
+            `;
+            
+            // 点击照片查看大图
+            photoElement.addEventListener('click', function() {
+              openPhotoViewer(category, index);
+            });
+            
+            galleryContainer.appendChild(photoElement);
+          });
+          
+          // 显示分类照片区域
+          categoryGallery.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+          
+          // 重新初始化AOS
+          setTimeout(() => {
+            AOS.refresh();
+          }, 100);
+        });
+      });
+      
+      // 关闭分类照片区域
+      closeGallery.addEventListener('click', function() {
+        categoryGallery.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      });
+      
+      // 照片查看器
+      const photoViewer = document.getElementById('photo-viewer');
+      const viewerImage = document.getElementById('viewer-image');
+      const viewerTitle = document.getElementById('viewer-title');
+      const viewerDescription = document.getElementById('viewer-description');
+      const viewerCounter = document.getElementById('viewer-counter');
+      const closeViewer = document.getElementById('close-viewer');
+      const prevImage = document.getElementById('prev-image');
+      const nextImage = document.getElementById('next-image');
+      const viewerDownload = document.getElementById('viewer-download');
+      const viewerShare = document.getElementById('viewer-share');
+      
+      // 打开照片查看器
+      function openPhotoViewer(category, index) {
+        currentCategory = category;
+        currentPhotoIndex = index;
+        
+        const photo = photoData[category].photos[index];
+        
+        viewerImage.src = photo.src;
+        viewerTitle.textContent = photo.title;
+        viewerDescription.textContent = photo.description;
+        viewerCounter.textContent = `${index + 1} / ${photoData[category].photos.length}`;
+        
+        photoViewer.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+      
+      // 关闭照片查看器
+      closeViewer.addEventListener('click', function() {
+        photoViewer.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      });
+      
+      // 上一张照片
+      prevImage.addEventListener('click', function() {
+        currentPhotoIndex = (currentPhotoIndex - 1 + photoData[currentCategory].photos.length) % photoData[currentCategory].photos.length;
+        
+        const photo = photoData[currentCategory].photos[currentPhotoIndex];
+        
+        viewerImage.src = photo.src;
+        viewerTitle.textContent = photo.title;
+        viewerDescription.textContent = photo.description;
+        viewerCounter.textContent = `${currentPhotoIndex + 1} / ${photoData[currentCategory].photos.length}`;
+      });
+      
+      // 下一张照片
+      nextImage.addEventListener('click', function() {
+        currentPhotoIndex = (currentPhotoIndex + 1) % photoData[currentCategory].photos.length;
+        
+        const photo = photoData[currentCategory].photos[currentPhotoIndex];
+        
+        viewerImage.src = photo.src;
+        viewerTitle.textContent = photo.title;
+        viewerDescription.textContent = photo.description;
+        viewerCounter.textContent = `${currentPhotoIndex + 1} / ${photoData[currentCategory].photos.length}`;
+      });
+      
+      // 下载照片
+      viewerDownload.addEventListener('click', function() {
+        alert('照片下载功能已触发');
+      });
+      
+      // 分享照片
+      viewerShare.addEventListener('click', function() {
+        alert('照片分享功能已触发');
+      });
+      
+      // 键盘导航
+      document.addEventListener('keydown', function(e) {
+        if (photoViewer.classList.contains('hidden')) return;
+        
+        if (e.key === 'Escape') {
+          photoViewer.classList.add('hidden');
+          document.body.style.overflow = 'auto';
+        } else if (e.key === 'ArrowLeft') {
+          prevImage.click();
+        } else if (e.key === 'ArrowRight') {
+          nextImage.click();
+        }
+      });
+      
+      // 点击空白区域关闭照片查看器
+      photoViewer.addEventListener('click', function(e) {
+        if (e.target === photoViewer) {
+          photoViewer.classList.add('hidden');
+          document.body.style.overflow = 'auto';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

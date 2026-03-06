@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>庄浪数字文化资源库</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- AOS - Animate On Scroll -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#653523',
+                        secondary: '#EEB88A',
+                        accent: '#019485',
+                        light: '#F5F5F5',
+                        dark: '#5A5C56'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Noto Serif SC', 'serif']
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "url('https://p26-doubao-search-sign.byteimg.com/labis/6765deda991b41ec378c436ecf446bbe~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1787559667&x-signature=rYB8mPhgkzTO8sORY17M7I9JW0Y%3D')",
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-6 py-2 rounded-md hover:bg-opacity-90 transition-all duration-300 transform hover:-translate-y-1;
+            }
+            .btn-secondary {
+                @apply bg-secondary text-dark px-6 py-2 rounded-md hover:bg-opacity-90 transition-all duration-300 transform hover:-translate-y-1;
+            }
+            .section-title {
+                @apply text-3xl md:text-4xl font-serif font-bold text-dark mb-8 text-center relative;
+            }
+            .section-title::after {
+                content: '';
+                @apply absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-accent mt-2;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white shadow-md sticky top-0 z-50">
+    <!-- 导航栏 -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+      <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center">
+        <h1 class="text-2xl font-bold text-yellow-800">
+          庄浪数字文化资源平台
+        </h1>
+      </div>
+        
+      <div class="flex items-center space-x-6">
+        <a href="ziyuanku.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字资源库</a>
+        <a href="yingxiangzhi.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字影像志</a>
+        <a href="wenlvguan.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字文旅馆</a>
+        </button>
+            </div>
+        </nav>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="#" class="text-primary hover:text-accent transition-colors py-2">首页</a>
+                <a href="#about" class="hover:text-primary transition-colors py-2">数字资源库</a>
+                <a href="#resources" class="hover:text-primary transition-colors py-2">数字影像志</a>
+                <a href="#gallery" class="hover:text-primary transition-colors py-2">数字文旅馆</a>
+                <a href="#contact" class="hover:text-primary transition-colors py-2">联系我们</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- banner区域 -->
+    <section class="relative h-[60vh] bg-cover bg-center bg-no-repeat" style="background-image: url('http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX4GpXfo/TmEUgtj9EK6.7V8ajmQrEAfyOJAtNWCDiw6U2ROJ3DaenP3.uRxOIj*xry*9lKGKGeAzngpuH5DBHCZnzE0MvlInfCTzQ0I.cHgAgUikviQ!/b&bo=tAiAAgwxFg4BCTU!&rf=viewer_4');">
+        <div class="absolute inset-0 bg-dark bg-opacity-50"></div>
+        <div class="container mx-auto px-4 h-full flex flex-col justify-center items-center relative z-10 text-center">
+            <h1 class="text-4xl md:text-6xl font-serif font-bold text-white mb-4 text-shadow" data-aos="fade-up" data-aos-duration="1000">
+                庄浪数字文化资源库
+            </h1>
+            <p class="text-xl md:text-2xl text-white mb-8 max-w-2xl text-shadow" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                探索历史长河中的庄浪文化瑰宝，感受千年文明的独特魅力
+            </p>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title" data-aos="fade-up">关于数字文化资源库</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                <div data-aos="fade-right">
+                    <p class="text-lg mb-4">
+                        庄浪县拥有丰富的文化资源和自然人文资源，境内已发现古文化遗址400多处。
+                    </p>
+                    <p class="text-lg mb-4">
+                        有国家级森林公园云崖寺、省级文物保护单位云崖石窟及紫荆山、陈家洞、吴王坟山、关山天池朝那湫等许多自然和人文景观。
+                    </p>
+                    <p class="text-lg">
+                        庄浪县文化资源是庄浪地区地域的创造物，具有庄浪县鲜明的族群和地域特色，具有独特性、多样性、精神性和可再生性特征，在推动庄浪县乡村振兴的过程中具有经济助推、思想教育、文化传承、生态文明和乡村治理等多维价值。
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 gap-4" data-aos="fade-left">
+                    <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrELhF.jqjrylwBgQttfySdqz5e5sjiY3j5OrttWSXkb3zreqMg4thWl7ED1Go*WTrEOEz7hlkRLQG3GIipNps7MU!/b&bo=wAjQBcAI0AUBCS4!&rf=viewer_4" alt="文物展示" class="rounded-lg shadow-md h-48 w-full object-cover">
+                    <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrECF04US*PK8Mje1tnLRLpGnSxByXoA7EGkH3oBJ7IW1mVX9xZgepAv9gvXD5Pfu1tBv9UHurIMKO.M.9YAabXKs!/b&bo=YAlABqAXwA8BCXk!&rf=viewer_4" alt="文物艺术" class="rounded-lg shadow-md h-48 w-full object-cover">
+                    <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrECF04US*PK8Mje1tnLRLpGm6rzzANIsIJgi1C3wPXQRWYktFjzH3aziWJtyunDVoi9SqqP9BamhM12IfTI3vQPo!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4" alt="古堡遗址" class="rounded-lg shadow-md h-48 w-full object-cover">
+                    <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEFMhmQhswyNigqaiEcW2j9Bm58aakpN32wq4Lyir4ECB2OZ7tywPqn6Acv9Vl46t9EUqXdoGlWfHT*zB5R*NbHE!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4" alt="自然风光" class="rounded-lg shadow-md h-48 w-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 资源分类 -->
+    <section id="resources" class="py-16 bg-light">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title" data-aos="fade-up">数字资源分类</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 数字资源库 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover" data-aos="fade-up" data-aos-delay="100">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEDh9FwMSGW4aKKWs9CG*350fquBtT6Qq1g7KxHibI0Y*I.iBjJTdXyzDz1gG7.MZFFIQ922H5yBDpexbrtd1nfo!/b&bo=xgdABq8bQxYBCUg!&rf=viewer_4">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent"></div>
+                        <h3 class="absolute bottom-0 left-0 right-0 text-white text-2xl font-serif font-bold p-4 text-shadow">数字资源库</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="mb-4">
+                            包含庄浪县博物馆馆藏文物的高清数字图像和详细文字说明，涵盖陶器、铜器、石器、玉器、瓷器等各类文物。
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">
+                                <i class="fa fa-file-text-o mr-1"></i> 收录文物: <span class="font-bold">75件</span>
+                            </span>
+                            <a href="ziyuanku.html" class="text-primary hover:text-accent transition-colors flex items-center">
+                                查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 数字影像志 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover" data-aos="fade-up" data-aos-delay="200">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX1Of2Me/TmEUgtj9EK6.7V8ajmQrEBzJpVxhob8jXF4F7nZOL2lShVWlQQ5ijPXql*JW8cPYZV6w47UAM3GEuta7fBz3YT2Dx27BlRVRT1.*.LxUOK4!/b&bo=QAZdCWoKmg8BCck!&rf=viewer_4" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent"></div>
+                        <h3 class="absolute bottom-0 left-0 right-0 text-white text-2xl font-serif font-bold p-4 text-shadow">数字影像志</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="mb-4">
+                            通过高清影像和全景技术，记录庄浪县境内的自然环境、非遗等文化遗产的现状，以及南开大学与庄浪县的合作日志。
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">
+                                <i class="fa fa-camera mr-1"></i> 影像资料: <span class="font-bold">288份</span>
+                            </span>
+                            <a href="yingxiangzhi.html" class="text-primary hover:text-accent transition-colors flex items-center">
+                                查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 数字文旅馆 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover" data-aos="fade-up" data-aos-delay="300">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX4GpXfo/TmEUgtj9EK6.7V8ajmQrEEpIC1B722o6B..yXLBjkdXUDpyO1xGghJBPgP3XEoeYhwYISau7*2SOMANvAaGv8gMxcK*vlNrVcWTvYsM2O5Q!/b&bo=QAZfCVgVACABCVM!&rf=viewer_4" alt="数字文旅馆" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent"></div>
+                        <h3 class="absolute bottom-0 left-0 right-0 text-white text-2xl font-serif font-bold p-4 text-shadow">数字文旅馆</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="mb-4">
+                            结合文化旅游资源，提供庄浪本土文创产品展示，打造线上购买农产平台。
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">
+                                <i class="fa fa-map-marker mr-1"></i> 文旅产品: <span class="font-bold">3件</span>
+                            </span>
+                            <a href="wenlvguan.html" class="text-primary hover:text-accent transition-colors flex items-center">
+                                查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 数据统计 -->
+    <section class="py-16 bg-primary text-white">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+                <div class="p-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-4xl md:text-5xl font-bold mb-2 counter" data-target="600">31</div>
+                    <p class="text-lg">古文化遗址</p>
+                </div>
+                <div class="p-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-4xl md:text-5xl font-bold mb-2 counter" data-target="6000">45</div>
+                    <p class="text-lg">历代文物</p>
+                </div>
+                <div class="p-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-4xl md:text-5xl font-bold mb-2 counter" data-target="30">30</div>
+                    <p class="text-lg">古堡遗址</p>
+                </div>
+                <div class="p-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="text-4xl md:text-5xl font-bold mb-2 counter" data-target="15">21</div>
+                    <p class="text-lg">非遗项目</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 精选展示 -->
+    <section id="gallery" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title" data-aos="fade-up">文化瑰宝精选</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="bg-light rounded-lg overflow-hidden shadow-md card-hover" data-aos="fade-up" data-aos-delay="100">
+                    <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEMukMgnrjRlJ5CaN3Sz74wIkXOrumU25qHyiyOXig45OUii1RihqXka974dSccKxiYmpPe9zAvd6OY5LMLNVQCA!/b&bo=YAlABqAXwA8BCXk!&rf=viewer_4" alt="宝泉寺北魏石造像塔" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-serif font-bold mb-2">庄浪文物</h3>
+                        <p class="text-gray-700 mb-3">庄浪县坐拥国家一级文物，最早出土文物追溯至新石器时代。</p>
+                        <a href="#" class="text-primary hover:text-accent transition-colors flex items-center">
+                            了解详情 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-light rounded-lg overflow-hidden shadow-md card-hover" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://wlt.gansu.gov.cn/wlt/c108560/202409/173994553/images/5687195732a74177a194e02a97ed3b52.jpg" alt="云崖寺石窟" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-serif font-bold mb-2">云崖寺石窟</h3>
+                        <p class="text-gray-700 mb-3">国家级文物保护单位，始建于北魏，是庄浪县最具代表性的石窟艺术。</p>
+                        <a href="#" class="text-primary hover:text-accent transition-colors flex items-center">
+                            了解详情 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-light rounded-lg overflow-hidden shadow-md card-hover" data-aos="fade-up" data-aos-delay="300">
+                    <img src="http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEFMhmQhswyNigqaiEcW2j9CxRWIW5VIo7mBP7RCTN0dSGXheskfPb9kWEhnvTXA*ooimBG2w4S0d.DENrDN1hJM!/b&bo=xgdABq8bQxYBCUg!&rf=viewer_4" alt="庄浪古堡" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-serif font-bold mb-2">庄浪古堡群</h3>
+                        <p class="text-gray-700 mb-3">庄浪县境内保存完好的古堡群，是研究西北古代军事防御体系的重要实物资料。</p>
+                        <a href="#" class="text-primary hover:text-accent transition-colors flex items-center">
+                            了解详情 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-light rounded-lg overflow-hidden shadow-md card-hover" data-aos="fade-up" data-aos-delay="400">
+                    <img src="https://zwfw.gansu.gov.cn/cms_files/filemanager/1106767078/picture/20222/8e7d02f6d7c149ea9fcb4747f04a1fc7.png" alt="庄浪梯田" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-serif font-bold mb-2">庄浪梯田</h3>
+                        <p class="text-gray-700 mb-3">被誉为"梯田王国"，是庄浪人民自强不息、艰苦创业精神的象征。</p>
+                        <a href="#" class="text-primary hover:text-accent transition-colors flex items-center">
+                            了解详情 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-light rounded-lg overflow-hidden shadow-md card-hover" data-aos="fade-up" data-aos-delay="500">
+                    <img src="https://ts2.tc.mm.bing.net/th/id/OIP-C.ksF-RIePdGTPKmfT87WHGAHaFj?rs=1&pid=ImgDetMain&o=7&rm=3" alt="紫荆山" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-serif font-bold mb-2">紫荆山</h3>
+                        <p class="text-gray-700 mb-3">该山自西秦时期已有宗教活动，北魏至明清逐渐形成儒释道三家共存格局，现存十余处古迹及重要建筑群。</p>
+                        <a href="#" class="text-primary hover:text-accent transition-colors flex items-center">
+                            了解详情 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-light rounded-lg overflow-hidden shadow-md card-hover" data-aos="fade-up" data-aos-delay="600">
+                    <img src="https://img.pconline.com.cn/images/upload/upc/tx/photoblog/1506/10/c17/8267223_8267223_1433949080843_mthumb.jpg" alt="朝那湫" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-serif font-bold mb-2">朝那湫</h3>
+                        <p class="text-gray-700 mb-3">它西与驰名中外的云崖寺毗邻，东与陇东石窟的另一颗明珠陈家洞相接，珠联璧合。</p>
+                        <a href="#" class="text-primary hover:text-accent transition-colors flex items-center">
+                            了解详情 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-10">
+                <a href="#" class="btn-primary" data-aos="fade-up">
+                    <i class="fa fa-th-large mr-2"></i>查看更多藏品
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 合作与支持 -->
+    <section class="py-16 bg-light">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title" data-aos="fade-up">合作与支持</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div data-aos="fade-right">
+                    <h3 class="text-2xl font-serif font-bold mb-4">加入我们的文化保护事业</h3>
+                    <p class="text-lg mb-6">
+                        庄浪数字文化资源库的建设得到了南开大学等高校和社会各界的大力支持。我们欢迎更多的机构和个人参与到文化遗产保护和数字化建设中来，共同传承和弘扬中华优秀传统文化。
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#contact" class="btn-primary">
+                            <i class="fa fa-handshake-o mr-2"></i>合作洽谈
+                        </a>
+                        <a href="#" class="btn-secondary">
+                            <i class="fa fa-heart mr-2"></i>支持我们
+                        </a>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4" data-aos="fade-left">
+                    <div class="bg-white p-4 rounded-lg shadow-md flex items-center justify-center h-24">
+                        <span class="text-xl font-bold text-primary">南开大学</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md flex items-center justify-center h-24">
+                        <span class="text-xl font-bold text-primary">庄浪县博物馆</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md flex items-center justify-center h-24">
+                        <span class="text-xl font-bold text-primary">甘肃省文旅厅</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md flex items-center justify-center h-24">
+                        <span class="text-xl font-bold text-primary">文化和旅游部</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title" data-aos="fade-up">联系我们</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div data-aos="fade-right">
+                    <h3 class="text-2xl font-serif font-bold mb-4">联系信息</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-primary text-white p-3 rounded-full mr-4">
+                                <i class="fa fa-map-marker"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">地址</h4>
+                                <p>甘肃省平凉市庄浪县水洛镇</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-primary text-white p-3 rounded-full mr-4">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">电话</h4>
+                                <p>0933-1234567</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-primary text-white p-3 rounded-full mr-4">
+                                <i class="fa fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">邮箱</h4>
+                                <p>info@zhuanglang-culture.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <h3 class="text-2xl font-serif font-bold mb-4">关注我们</h3>
+                        <div class="flex space-x-4">
+                            <a href="#" class="bg-primary text-white p-3 rounded-full hover:bg-opacity-90 transition-all">
+                                <i class="fa fa-weixin"></i>
+                            </a>
+                            <a href="#" class="bg-primary text-white p-3 rounded-full hover:bg-opacity-90 transition-all">
+                                <i class="fa fa-weibo"></i>
+                            </a>
+                            <a href="#" class="bg-primary text-white p-3 rounded-full hover:bg-opacity-90 transition-all">
+                                <i class="fa fa-youtube-play"></i>
+                            </a>
+                            <a href="#" class="bg-primary text-white p-3 rounded-full hover:bg-opacity-90 transition-all">
+                                <i class="fa fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div data-aos="fade-left">
+                    <h3 class="text-2xl font-serif font-bold mb-4">留言咨询</h3>
+                    <form id="contact-form" class="space-y-4">
+                        <div>
+                            <label for="name" class="block mb-2 font-medium">姓名</label>
+                            <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                        <div>
+                            <label for="email" class="block mb-2 font-medium">邮箱</label>
+                            <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                        <div>
+                            <label for="subject" class="block mb-2 font-medium">主题</label>
+                            <select id="subject" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                                <option value="">请选择咨询主题</option>
+                                <option value="cooperation">合作洽谈</option>
+                                <option value="visit">参观预约</option>
+                                <option value="donation">捐赠支持</option>
+                                <option value="other">其他咨询</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="message" class="block mb-2 font-medium">留言内容</label>
+                            <textarea id="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full">
+                            <i class="fa fa-paper-plane mr-2"></i>提交留言
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- 页脚 -->
+  <footer class="bg-dark text-white py-6">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- 关于我们 -->
+        <div data-aos="fade-up">
+          <h3 class="text-lg font-semibold mb-4">关于我们</h3>
+          <p class="text-gray-400 mb-4">致力于庄浪县文化遗产的数字化保护、研究和传播，让千年文明焕发新的生机。</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-facebook"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-twitter"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- 快速链接 -->
+        <div data-aos="fade-up" data-aos-delay="100">
+          <h3 class="text-lg font-semibold mb-4">快速链接</h3>
+          <ul class="space-y-2">
+            <li><a href="home.html" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+            <li><a href="ziyuanku.html" class="text-gray-400 hover:text-white transition-colors">数字资源库</a></li>
+            <li><a href="yingxiangzhi.html" class="text-gray-400 hover:text-white transition-colors">数字影像志</a></li>
+            <li><a href="wenlvguan.html" class="text-gray-400 hover:text-white transition-colors">数字文旅馆</a></li>
+          </ul>
+        </div>
+        
+        <!-- 联系方式 -->
+        <div data-aos="fade-up" data-aos-delay="200">
+          <h3 class="text-lg font-semibold mb-4">联系方式</h3>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <i class="fa fa-map-marker text-gray-400 mt-1 mr-2"></i>
+              <span class="text-gray-400">甘肃省平凉市庄浪县北滨河路与紫荆北街交叉口</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-phone text-gray-400 mr-2"></i>
+              <span class="text-gray-400">8888-8888</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-envelope text-gray-400 mr-2"></i>
+              <span class="text-gray-400">info@zhuanglangwenwuziyuan.com</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- 营业时间 -->
+        <div data-aos="fade-up" data-aos-delay="300">
+        
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+        <p class="text-gray-400">© 2025 平凉市庄浪县. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // 初始化AOS动画库
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+
+            // 移动端菜单切换
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // 数字计数动画
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200; // 动画速度
+
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const increment = target / speed;
+
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + increment);
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+
+                // 当元素进入视口时开始动画
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateCount();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+
+                observer.observe(counter);
+            });
+
+            // 联系表单提交
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // 获取表单数据
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const subject = document.getElementById('subject').value;
+                    const message = document.getElementById('message').value;
+                    
+                    // 简单验证
+                    if (!name || !email || !subject || !message) {
+                        alert('请填写所有必填字段');
+                        return;
+                    }
+                    
+                    // 模拟表单提交
+                    alert('感谢您的留言！我们会尽快回复您。');
+                    contactForm.reset();
+                });
+            }
+
+            // 返回顶部按钮
+            const backToTopButton = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.remove('opacity-0', 'invisible');
+                    backToTopButton.classList.add('opacity-100', 'visible');
+                } else {
+                    backToTopButton.classList.remove('opacity-100', 'visible');
+                    backToTopButton.classList.add('opacity-0', 'invisible');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

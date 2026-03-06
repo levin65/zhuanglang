@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>庄浪照片</title>
+  <!-- Tailwind CSS v3 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- AOS - Animate On Scroll -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#653523',
+            secondary: '#EEB88A',
+            accent: '#019485',
+            light: '#F5F5F5',
+            dark: '#5A5C56'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .masonry-grid {
+        column-count: 1;
+        column-gap: 1rem;
+      }
+      @media (min-width: 640px) {
+        .masonry-grid {
+          column-count: 2;
+        }
+      }
+      @media (min-width: 768px) {
+        .masonry-grid {
+          column-count: 3;
+        }
+      }
+      @media (min-width: 1024px) {
+        .masonry-grid {
+          column-count: 4;
+        }
+      }
+      .masonry-item {
+        break-inside: avoid;
+        margin-bottom: 1rem;
+      }
+      .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+    }
+  </style>
+</head>
+<body class="bg-light text-dark">
+  <!-- 导航栏 -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center">
+        <h1 class="text-2xl font-bold text-yellow-800">
+          庄浪数字文化资源平台
+        </h1>
+      </div>
+      
+      <div class="flex items-center space-x-6">
+        <a href="index.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">首页</a>
+        <a href="ziyuanku.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字资源库</a>
+        <a href="yingxiangzhi.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字影像志</a>
+        <a href="wenlvguan.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字文旅馆</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 页面标题 -->
+  <section class="py-8 bg-primary text-white">
+    <div class="container mx-auto px-4">
+      <h1 class="text-3xl md:text-4xl font-bold" data-aos="fade-up">大事记录 <span class="text-xl bg-white text-primary px-2 py-1 rounded-md ml-2">14张</span></h1>
+      <p class="mt-2 text-secondary" data-aos="fade-up" data-aos-delay="100">上下齐心，共建美好庄浪</p>
+    </div>
+  </section>
+
+  <!-- 照片陈列区 -->
+  <section class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <!-- 筛选和排序 -->
+      <div class="flex flex-col md:flex-row justify-between items-center mb-8 pb-4 border-b">
+        <div class="mb-4 md:mb-0">
+          <span class="text-gray-600"><i class="fa fa-images mr-2"></i>共 <strong>14</strong> 张照片</span>
+        </div>
+        <div class="flex space-x-4">
+        </div>
+      </div>
+      
+      <!-- 照片网格 -->
+      <div class="masonry-grid" id="photo-grid">
+        <!-- 64张照片将通过JS动态生成 -->
+      </div>
+      
+      <!-- 加载更多/分页 -->
+      <div class="mt-12 text-center">
+        <button id="load-more" class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105">
+          <i class="fa fa-refresh mr-2"></i> 加载更多
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 照片查看器模态框 -->
+  <div id="photo-viewer" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black bg-opacity-90"></div>
+    <div class="container mx-auto px-4 h-full flex flex-col justify-center items-center relative z-10">
+      <button id="close-viewer" class="absolute top-4 right-4 text-white text-3xl hover:text-gray-300 transition-colors">
+        <i class="fa fa-times"></i>
+      </button>
+      
+      <div class="w-full max-w-4xl">
+        <div class="relative">
+          <img id="viewer-image" src="#" alt="查看照片" class="w-full h-auto max-h-[70vh] object-contain rounded-lg">
+          
+          <button id="prev-image" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+            <i class="fa fa-angle-left"></i>
+          </button>
+          
+          <button id="next-image" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+            <i class="fa fa-angle-right"></i>
+          </button>
+        </div>
+        
+        <div class="mt-4 text-white">
+          <h3 id="viewer-title" class="text-xl font-bold mb-2"></h3>
+          <p id="viewer-description" class="text-gray-300"></p>
+          <div class="mt-2 flex justify-between items-center">
+            <span id="viewer-counter" class="text-sm text-gray-400"></span>
+            <div class="flex space-x-4">
+              <button id="viewer-download" class="text-white hover:text-primary transition-colors">
+                <i class="fa fa-download mr-1"></i> 下载
+              </button>
+              <button id="viewer-share" class="text-white hover:text-primary transition-colors">
+                <i class="fa fa-share-alt mr-1"></i> 分享
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 页脚 -->
+  <footer class="bg-dark text-white py-6 mt-12">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-gray-400">© 2025 平凉市庄浪县. 保留所有权利.</p>
+    </div>
+  </footer>
+
+  <!-- 返回顶部按钮 -->
+  <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary hover:bg-primary/90 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all transform hover:scale-110 opacity-0 invisible">
+    <i class="fa fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // 初始化AOS动画
+    document.addEventListener('DOMContentLoaded', function() {
+      AOS.init({
+        duration: 800,
+        once: true
+      });
+      // 先定义所有图片的URL数组（按顺序对应1-75张）
+      const photoUrls = [
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrEOx.hfQdEvwy0XDynAULWa1JFcoLEx0UcZMwaNDxl9W5PSP*ynAS3dEitNo8NmimLGZi4l.MHE6nHhxlQmd9XUQ!/b&bo=YAlABhAOYAkBCXY!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrED7W1RdfWPvI1JhwsmPtuaoaHGQ0eM311LgPmAj3l4FoYvz89tfBtdc7j1Oy87UMMtGprOxbhQNGIjUdVADisGQ!/b&bo=fAlABkYPEQoBKW8!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrED7W1RdfWPvI1JhwsmPtuaoUKRuxgomoI730ZB8HNm1GryidQwoODI5VfT22Lp19.HwRbXfDPVGts3EWPkvj4dE!/b&bo=YAlABpASYAwBKc8!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrED7W1RdfWPvI1JhwsmPtuaqRPN5zJBe5MzIXEtg8HRPNy.fhNyjxzLvXCKDXpC1JIpPwMXtMb3mKnBRH5nCZVkQ!/b&bo=YAlABhAOYAkBOUY!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrED7W1RdfWPvI1JhwsmPtuape1NazWCJAlwCRDUXEDE6sut2eIP7vMRcz3tojiDiDKCEAcokHs6OMVNXuC.o58zc!/b&bo=IAMRAiADEQIBGT4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrEDa8xN3gpQwk9fCCLTZgCw5NLe99Wgx0bxPQvQROg8Xi1yz0FtQlIKL*e.4UMUQhfPe*CQvbJtgCxzD3Kbf*xIA!/b&bo=ZQc4BGUHOAQBGT4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrEDa8xN3gpQwk9fCCLTZgCw7J8.qS62TBpONeWMs.G*jrjHH3VXyxxe7GjrXVfXgfbh3hW7R8gN6HEPR1urtBdIM!/b&bo=rQpABkwRIAoBSfg!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrEDa8xN3gpQwk9fCCLTZgCw5n6Kk.Ig72gu7PDIbHgH3ymM*IL7kT.TB43z2hbhdmV2XE9sZtQ7g61EQwqzxsw5o!/b&bo=IAMRAiADEQIBGT4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrEDa8xN3gpQwk9fCCLTZgCw7Lu7iTNCQjvs*mHmeEZXsgrtZMWpdOhbvHHt8RetlyIyNKngtlLQgNISDCFFUl8nk!/b&bo=IAMWAiADFgIBGT4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrEFHu1riIaeV8FUdXoWxUvM1AbuZ5NASOSR0URP0OZjwwVIyKUMeq.LFecAu.Cn7.MqNc6Y4horzFzmhjFHNZ0.c!/b&bo=QAZDB*IJjgsBKXI!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrEFHu1riIaeV8FUdXoWxUvM11aQHkZIq3yZ36E4n85rm9r3fYuj9JEZNhRnOvTMrS6v7xAeXM1lfr5rLffG0MfUA!/b&bo=gASIAoAEiAIBGT4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrEFHu1riIaeV8FUdXoWxUvM2yQxY9KbSV5Siw45bcudq8cIngCNwr3GL.YIWYyv0h2bzbFtlZYfRrvm40C2mMz20!/b&bo=nAlABkAULA0BObg!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrEFHu1riIaeV8FUdXoWxUvM1eYYx.6jlw3DAP7CnXtoy0Y*.wwwiVPAekeG5GxZxYlWQK05yL0LHcO4nGt2y48tU!/b&bo=fwQNB38EDQcBGT4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX3VDvzz/TmEUgtj9EK6.7V8ajmQrEKlhlttSrKhUy*4wssKF.l1fCT4aLVWP5Z5z64jaS0A.GP*foYKYkSbYhb7uA.RLJgDbQI4U.dT1EsXHuDQIQog!/b&bo=fwQYAn8EGAIBGT4!&rf=viewer_4",
+      ];
+
+      // 基于URL数组生成photoData
+      const photoData = photoUrls.map((url, i) => {
+       const num = (i + 1).toString().padStart(2, '0');
+        return {
+        id: i + 1,
+        src: url, // 关键：改为src（原代码是Image，会导致图片不显示）
+        title: `庄浪事迹 ${num}`,
+        description: `城市建设中的重要时刻记录 - 第${num}张`
+      };
+    });
+      
+      // 当前查看的照片索引
+      let currentPhotoIndex = 0;
+      
+      // 渲染照片网格
+      const photoGrid = document.getElementById('photo-grid');
+      function renderPhotos(photos) {
+        photos.forEach((photo, index) => {
+          const photoElement = document.createElement('div');
+          photoElement.className = 'masonry-item';
+          photoElement.setAttribute('data-aos', 'fade-up');
+          photoElement.setAttribute('data-aos-delay', (index % 6) * 100);
+          
+          photoElement.innerHTML = `
+            <div class="relative overflow-hidden rounded-lg shadow-md group cursor-pointer">
+              <!-- 修复：显示真实图片，替换占位符 -->
+              <img src="${photo.src}" alt="${photo.title}" class="w-full h-64 object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                <div class="p-4 text-white">
+                  <h3 class="font-bold">${photo.title}</h3>
+                  <p class="text-sm">${photo.description.substring(0, 30)}...</p>
+                </div>
+              </div>
+            </div>
+          `;
+          
+          // 点击照片查看大图
+          photoElement.addEventListener('click', function() {
+            openPhotoViewer(index);
+          });
+          
+          photoGrid.appendChild(photoElement);
+        });
+        
+        // 刷新AOS动画
+        AOS.refresh();
+      }
+      
+      // 初始渲染前20张照片
+      renderPhotos(photoData.slice(0, 20));
+      
+      // 加载更多按钮
+      const loadMoreBtn = document.getElementById('load-more');
+      let loadedCount = 20;
+      
+      loadMoreBtn.addEventListener('click', function() {
+        if (loadedCount >= photoData.length) {
+          this.innerHTML = '<i class="fa fa-check mr-2"></i> 已加载全部照片';
+          this.disabled = true;
+          this.classList.add('bg-gray-500');
+          this.classList.remove('bg-primary', 'hover:bg-primary/90');
+          return;
+        }
+        
+        // 加载下一批照片（每次加载10张）
+        const nextBatch = photoData.slice(loadedCount, loadedCount + 10);
+        renderPhotos(nextBatch);
+        loadedCount += nextBatch.length;
+        
+        // 更新按钮状态
+        if (loadedCount >= photoData.length) {
+          this.innerHTML = '<i class="fa fa-check mr-2"></i> 已加载全部照片';
+          this.disabled = true;
+          this.classList.add('bg-gray-500');
+          this.classList.remove('bg-primary', 'hover:bg-primary/90');
+        }
+      });
+      
+      // 照片查看器相关元素
+      const photoViewer = document.getElementById('photo-viewer');
+      const viewerImage = document.getElementById('viewer-image');
+      const viewerTitle = document.getElementById('viewer-title');
+      const viewerDescription = document.getElementById('viewer-description');
+      const viewerCounter = document.getElementById('viewer-counter');
+      const closeViewer = document.getElementById('close-viewer');
+      const prevImage = document.getElementById('prev-image');
+      const nextImage = document.getElementById('next-image');
+      const viewerDownload = document.getElementById('viewer-download');
+      const viewerShare = document.getElementById('viewer-share');
+      
+      // 打开照片查看器
+      function openPhotoViewer(index) {
+        currentPhotoIndex = index;
+        const photo = photoData[index];
+        
+        viewerImage.src = photo.src;
+        viewerTitle.textContent = photo.title;
+        viewerDescription.textContent = photo.description;
+        viewerCounter.textContent = `${index + 1} / ${photoData.length}`;
+        
+        photoViewer.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+      
+      // 关闭照片查看器
+      closeViewer.addEventListener('click', function() {
+        photoViewer.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      });
+      
+      // 上一张照片
+      prevImage.addEventListener('click', function() {
+        currentPhotoIndex = (currentPhotoIndex - 1 + photoData.length) % photoData.length;
+        updateViewer();
+      });
+      
+      // 下一张照片
+      nextImage.addEventListener('click', function() {
+        currentPhotoIndex = (currentPhotoIndex + 1) % photoData.length;
+        updateViewer();
+      });
+      
+      // 更新照片查看器内容
+      function updateViewer() {
+        const photo = photoData[currentPhotoIndex];
+        
+        viewerImage.src = photo.src;
+        viewerTitle.textContent = photo.title;
+        viewerDescription.textContent = photo.description;
+        viewerCounter.textContent = `${currentPhotoIndex + 1} / ${photoData.length}`;
+      }
+      
+      // 下载和分享功能
+      viewerDownload.addEventListener('click', function() {
+        alert(`下载 ${photoData[currentPhotoIndex].title}`);
+      });
+      
+      viewerShare.addEventListener('click', function() {
+        alert(`分享 ${photoData[currentPhotoIndex].title}`);
+      });
+      
+      // 键盘导航
+      document.addEventListener('keydown', function(e) {
+        if (photoViewer.classList.contains('hidden')) return;
+        
+        if (e.key === 'Escape') {
+          photoViewer.classList.add('hidden');
+          document.body.style.overflow = 'auto';
+        } else if (e.key === 'ArrowLeft') {
+          prevImage.click();
+        } else if (e.key === 'ArrowRight') {
+          nextImage.click();
+        }
+      });
+      
+      // 点击空白区域关闭查看器
+      photoViewer.addEventListener('click', function(e) {
+        if (e.target === photoViewer) {
+          photoViewer.classList.add('hidden');
+          document.body.style.overflow = 'auto';
+        }
+      });
+      
+      // 返回顶部按钮
+      const backToTop = document.getElementById('back-to-top');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 300) {
+          backToTop.classList.remove('opacity-0', 'invisible');
+          backToTop.classList.add('opacity-100', 'visible');
+        } else {
+          backToTop.classList.add('opacity-0', 'invisible');
+          backToTop.classList.remove('opacity-100', 'visible');
+        }
+      });
+      
+      backToTop.addEventListener('click', function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>

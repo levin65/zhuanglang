@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>庄浪照片</title>
+  <!-- Tailwind CSS v3 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- AOS - Animate On Scroll -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#653523',
+            secondary: '#EEB88A',
+            accent: '#019485',
+            light: '#F5F5F5',
+            dark: '#5A5C56'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .masonry-grid {
+        column-count: 1;
+        column-gap: 1rem;
+      }
+      @media (min-width: 640px) {
+        .masonry-grid {
+          column-count: 2;
+        }
+      }
+      @media (min-width: 768px) {
+        .masonry-grid {
+          column-count: 3;
+        }
+      }
+      @media (min-width: 1024px) {
+        .masonry-grid {
+          column-count: 4;
+        }
+      }
+      .masonry-item {
+        break-inside: avoid;
+        margin-bottom: 1rem;
+      }
+      .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+    }
+  </style>
+</head>
+<body class="bg-light text-dark">
+  <!-- 导航栏 -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center">
+        <h1 class="text-2xl font-bold text-yellow-800">
+          庄浪数字文化资源平台
+        </h1>
+      </div>
+      
+      <div class="flex items-center space-x-6">
+        <a href="index.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">首页</a>
+        <a href="ziyuanku.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字资源库</a>
+        <a href="yingxiangzhi.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字影像志</a>
+        <a href="wenlvguan.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字文旅馆</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 页面标题 -->
+  <section class="py-8 bg-primary text-white">
+    <div class="container mx-auto px-4">
+      <h1 class="text-3xl md:text-4xl font-bold" data-aos="fade-up">日新小学共创 <span class="text-xl bg-white text-primary px-2 py-1 rounded-md ml-2">64张</span></h1>
+      <p class="mt-2 text-secondary" data-aos="fade-up" data-aos-delay="100">小孩眼中的“妈妈”和小孩眼中的“历史”</p>
+    </div>
+  </section>
+
+  <!-- 照片陈列区 -->
+  <section class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <!-- 筛选和排序 -->
+      <div class="flex flex-col md:flex-row justify-between items-center mb-8 pb-4 border-b">
+        <div class="mb-4 md:mb-0">
+          <span class="text-gray-600"><i class="fa fa-images mr-2"></i>共 <strong>64</strong> 张照片</span>
+        </div>
+        <div class="flex space-x-4">
+        </div>
+      </div>
+      
+      <!-- 照片网格 -->
+      <div class="masonry-grid" id="photo-grid">
+        <!-- 64张照片将通过JS动态生成 -->
+      </div>
+      
+      <!-- 加载更多/分页 -->
+      <div class="mt-12 text-center">
+        <button id="load-more" class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105">
+          <i class="fa fa-refresh mr-2"></i> 加载更多
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 照片查看器模态框 -->
+  <div id="photo-viewer" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black bg-opacity-90"></div>
+    <div class="container mx-auto px-4 h-full flex flex-col justify-center items-center relative z-10">
+      <button id="close-viewer" class="absolute top-4 right-4 text-white text-3xl hover:text-gray-300 transition-colors">
+        <i class="fa fa-times"></i>
+      </button>
+      
+      <div class="w-full max-w-4xl">
+        <div class="relative">
+          <img id="viewer-image" src="#" alt="查看照片" class="w-full h-auto max-h-[70vh] object-contain rounded-lg">
+          
+          <button id="prev-image" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+            <i class="fa fa-angle-left"></i>
+          </button>
+          
+          <button id="next-image" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+            <i class="fa fa-angle-right"></i>
+          </button>
+        </div>
+        
+        <div class="mt-4 text-white">
+          <h3 id="viewer-title" class="text-xl font-bold mb-2"></h3>
+          <p id="viewer-description" class="text-gray-300"></p>
+          <div class="mt-2 flex justify-between items-center">
+            <span id="viewer-counter" class="text-sm text-gray-400"></span>
+            <div class="flex space-x-4">
+              <button id="viewer-download" class="text-white hover:text-primary transition-colors">
+                <i class="fa fa-download mr-1"></i> 下载
+              </button>
+              <button id="viewer-share" class="text-white hover:text-primary transition-colors">
+                <i class="fa fa-share-alt mr-1"></i> 分享
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 页脚 -->
+  <footer class="bg-dark text-white py-6 mt-12">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-gray-400">© 2025 平凉市庄浪县. 保留所有权利.</p>
+    </div>
+  </footer>
+
+  <!-- 返回顶部按钮 -->
+  <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary hover:bg-primary/90 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all transform hover:scale-110 opacity-0 invisible">
+    <i class="fa fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // 初始化AOS动画
+    document.addEventListener('DOMContentLoaded', function() {
+      AOS.init({
+        duration: 800,
+        once: true
+      });
+      // 先定义所有图片的URL数组（按顺序对应1-75张）
+      const photoUrls = [
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEIRhVECu40v4sJWGS4sZi0cCwcLyueZIUoblA.BmAnOIUt04DykTratac9QllzDhSvzQWKH*0EsXciFx3fZhIvk!/b&bo=QAbNCGoSEw0BCcs!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEEpIC1B722o6B..yXLBjkdW1PbOs1edX2xZblJo5vHOGb8pddYn1ZPrryn57KAcB.I3aGW.sxAOCIR4HECPJFSU!/b&bo=QAbnCMIMKxIBOUA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEEpIC1B722o6B..yXLBjkdWn5iqGrEfcZep6l9EY.xir21hHEIXrLzWUGhbgBvTJdkYTptRnzR3MkYXVUuxyhmg!/b&bo=QAbnCMIMKxIBOUA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEEpIC1B722o6B..yXLBjkdVk1M2*xxvTRWXQ1MWq8uHL2lCFxTLIBaAzYAEU5ezhrx4c8yEzBCi92nP*fYcPd4k!/b&bo=QAbnCMIMKxIBSTA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEEpIC1B722o6B..yXLBjkdWX*SiHskE2G317a1qLZVi5hDM7*aQNBdyS9wtcGpsg0CuD3ihN*6usI8.v7VCk5qg!/b&bo=QAbnCMIMKxIBOUA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEJ4s7bI.Ohm7vBaBtDY.Spiv5c1haAxc7AltRHGr5SdPL3o4k53Kz6PLdM3BaItGmoOzc2Ky.Tc3sPWTMBAXT8k!/b&bo=QAbnCMIMKxIBOUA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEJ4s7bI.Ohm7vBaBtDY.SpimYZNYP3G8Z3EO1kGFVa7SmoKpNTVEtM749LBg5JUCcm3EM8li3BDWV2779Z3p06M!/b&bo=QAbECHMQuwsBOUc!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEJ4s7bI.Ohm7vBaBtDY.SpjoiMNf8iRCru82AOs6iBK*DdRvZSeORjr2jBI6xEXxugFgQyh.40iqJTpm5UAvusw!/b&bo=QAbnCMIMKxIBOUA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEJ4s7bI.Ohm7vBaBtDY.SpiFWxvoQppR3GrLh1CmoJ8oqrNjOV02C8mPMfZPVnqaLmBr7Ol4l52WFE*eDF0FQoc!/b&bo=QAbnCMIMKxIBOUA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEBhrqyYalkZZaI17BA3adtIIPAgS1di.iLWjnOtKgP4oqM4XRnW1NzLKsQIXhH5U.HV4SQQ*K4IPM7ETxiJAcVo!/b&bo=QAbnCMIMKxIBOUA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEBhrqyYalkZZaI17BA3adtLMSTc.Tua139JgWcQOjuAqopyI8CrQvCC.gcRgvORt7JqaMtIVv9NpY11JBcm8gYw!/b&bo=QAbnCMIMKxIBKVA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEBhrqyYalkZZaI17BA3adtIh9UPm3uROOhfe6l30M4yS*wZEdwSeqZM3NpCGNzX1MtT3Q6YvZ6Ir78O6442oR8g!/b&bo=QAbnCMIMKxIBOUA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEBhrqyYalkZZaI17BA3adtLpFQI4DfQIL46P5nyAcz32LcGQTDHnLFSlg9o6gt3fiQla2CO7s2*64R3oFf1VeYM!/b&bo=QAbnCMIMKxIBKVA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEBzJpVxhob8jXF4F7nZOL2nwiMYkXkN8UdTg2EyMX*fIHJfvpi.xkgn8OcZkCJtZWTHkDj5GEmKh6k9W.dGrf6k!/b&bo=QAbnCMIMKxIBOUA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEBzJpVxhob8jXF4F7nZOL2lxxmLsdDmwPUFydrVtZaBYWx.qm3*nqXZkCTb.*qIKG8cS27caRwEZj1O0OG4V728!/b&bo=QAbnCMIMKxIBKVA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEBzJpVxhob8jXF4F7nZOL2nL.tE6M9iCgpwqo7w9P2GenuzAz3pDqd*ck0wgWN3APHFeyXW2s4o*17OK.wUxCyk!/b&bo=QAbnCMIMKxIBOUA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEBzJpVxhob8jXF4F7nZOL2mZztUHiiVst.IMzuThfKLRwbGJiA37bxSB5ESEx6th23.E6L6W5FB50of978rhGdI!/b&bo=QAbnCMIMKxIBOUA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEHJEHPC0o99dRSTBESroBRQc9ZjtY9LwySRj4WX9GPSMUH4L.2eh8FTg.wgrStEa.x5FppYiepBq5KSTmOA67jE!/b&bo=QAbnCMIMKxIBOUA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEHJEHPC0o99dRSTBESroBRQhjJv2y1NJNBfAAwIhmvOmJJZr09U9.mD.xaNG4.bZMLdrWrnPdC3fnHBz.EG9UbU!/b&bo=QAbnCMIMKxIBKVA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEHJEHPC0o99dRSTBESroBRRGnT8wUwjUld0WXZgcd6W8e*7EFVqUWsDXf6WNH5ccCIqRKxUTJSeK6DUuB0rtCus!/b&bo=QAbnCMIMKxIBGWA!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEHJEHPC0o99dRSTBESroBRSFg99T3uX18UxoAbLq.z*AycucrUzbIcXmNL9POLht6HgZnpz.29Q0Gdb0IIVK7yM!/b&bo=twhABlAWABABGZE!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKxsdVobrZDAEZwAJiRldAXwupKIpwhIsg2vJwPlmrQQ.PpQvX6GVu5zHmezm5KVDv.VFZVwafPjPH9y9L1.MrQ!/b&bo=6AhABigMiAgBGTw!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKxsdVobrZDAEZwAJiRldAWaK1X5Uyt.sx0KbDCx7TVl5PQCTwAXg4tUND.ohZQYyeEP5T*xhw0mM.NN4NeO*Ds!/b&bo=wQhABpAM.AgBGd0!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKxsdVobrZDAEZwAJiRldAW91sB2mcJ1lj*99nQFvCnPTulalCTDGYA65pUnvpOcD7NkXrNcbYs.t4FJCZZBs5k!/b&bo=xghABqgMBAkBGR8!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKxsdVobrZDAEZwAJiRldAXAati7PtGCQNvxPOrFTMUWFIU0avvnjD8ALKfbY5.VYTjajTfXH7G5gkrsHIRkwMo!/b&bo=wQhABoQM8AgBGcE!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEFRHjrBW1Lp7k8mmLpVrFDB04LyNfLwIwWGafCp7e3G1VmvkUXqG2uStWdi0KIAJHmWswTO86qHOKKVPaUJgGhs!/b&bo=tghABmQM5AgBGUI!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEFRHjrBW1Lp7k8mmLpVrFDDk13WKs04oFs1dS99nIaMk3jL5SmMEaj*lZBdST3BbDyow73nMgm53YiqxAx4.a3Q!/b&bo=ywhABmwM1AgBGQc!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEFRHjrBW1Lp7k8mmLpVrFDDlVACg*tSHb4PQZbTib7jGlh9xl85QG0WYUq7t9KvaKBIhEjXRyfedPPuRXyqLi6A!/b&bo=5QhABkAMnAgBGU0!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEI9WxL5IQyxVPxyOfEakuPFOzTULKdl2PC4wOFpey2bvZSU.9lNTTasrmWFGEqAPMz*SYAVXT9azRT4DpQrn5Oc!/b&bo=vAhABkAMxAgBGUw!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEI9WxL5IQyxVPxyOfEakuPESUxsiIONTRFwl18UH9p7.*hSylA8Wj8uPNmKkDhMHkYZcJUgphTrFV9wlMOgW9hI!/b&bo=vghABkgMyAgBGUo!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEI9WxL5IQyxVPxyOfEakuPFgi5XscbchllkkJFhz1mxwC8wl54.LFKNksApfBvdaVLDr4zch2a.WDtiPznmpD7s!/b&bo=sAhABkAM0AgBGVQ!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEI9WxL5IQyxVPxyOfEakuPH5R*3tDCx7qqkIJKgxBqY75T*cfPSUiD3vpxhDRD*z239hvmEUxs1IoZPElQvxbOE!/b&bo=uQhABlgM2AgBGU0!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKGuRC1wh7oAIzJXcnbKkjo5.j2Dogk1PgQz05FXVPwXSZkNlAlG1EzwJEVfj4I10L.JP*5mINUiE5jHjrYM.m0!/b&bo=zwhABigMoAgBGTM!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKGuRC1wh7oAIzJXcnbKkjrnstqol5NAe6H*OWcil0N9MaqAz7knhpDXn2y9Htr9CtLiYnAnyFOwRJyro147tTk!/b&bo=ywhABkQMuAgBGUM!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKGuRC1wh7oAIzJXcnbKkjq*hlDK3HWVEZYY7JDTb5.hNOZYYIbPWU.nL5PYTpKsOWXGda5NkS7YvfCbzjH2v4I!/b&bo=1ghABkgMsAgBGVo!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKGuRC1wh7oAIzJXcnbKkjpMk*SOhqEfl7FUINA8OoOFakg00Qh0Rzs5xbwMnWypapRFoqYhVQ8zjc8mV0Kxa.k!/b&bo=yQhABtwLcAgBGRY!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEBHnmZHwfLZUV6znWUwnxjcYr4EulvGSprtaMg7E7s2SoQBWH.XJFosGta0yCz9y1*8Y7.TlOq883BtfQSmR8vs!/b&bo=0QhABiAMmAgBGR0!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEBHnmZHwfLZUV6znWUwnxjdj6sYSiTTV76FGxItq54OTUG3015JWIN9mGKtMZq6XUxt0UIz5z900hpDapKVU3BU!/b&bo=uwhABuALgAgBGag!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEBHnmZHwfLZUV6znWUwnxjdl5nLurQml1OQLkaXMIJhDZ1NQhOwjkfOuTBXxhCHm2vB3mZJcYifuqjYrshQEsCc!/b&bo=xwhABigMqAgBKQM!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEBHnmZHwfLZUV6znWUwnxjcF9WX3RMdYjCiywEkd1nZ5a2IRNbK7ZjDvSPnWcprK2JcIxtVdueVsRwzh98smrxw!/b&bo=xghABgAMjAgBKQ4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEJuQzaskOx8FsD81SSEJe95H5AkwgLm*i*HvnD*Ai46K8ud3dTYjChzw59XJ3qOza9ux3GTdpbt0dcqmMdStg3I!/b&bo=ughABmQM4AgBGUo!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEJuQzaskOx8FsD81SSEJe96hC7CIEUKe3DGoKy8zLN.XdSpSYwkZL.ziXBWB*8IdNY*nxZ9uJjnNmD3T4JycOmk!/b&bo=twhABjQMwAgBGTc!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEJuQzaskOx8FsD81SSEJe97OhF4R47lXWRf7P*oddEcuFNWwn9PHGKWC1fwjmgvgX51wBcO1fs4PE1i8W47NO0M!/b&bo=vghABlQM0AgBGU4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEJuQzaskOx8FsD81SSEJe97Xaa6OBAirLC6s*ZNhjm.YPiilU6ojJNw*rbCAY8LCz5JexHNMJJXqR7hQCFJJZT4!/b&bo=qghABkgM3AgBGUo!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKV8ke90pFTWwlr3dgzEs69XKBDJ2f6i0z8daL9KMnYzUE428SGkc5rWkqj.eJ7jy97jWg2r3x9Sr8wbUbAhUbA!/b&bo=ughABiwMuAgBGVo!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKV8ke90pFTWwlr3dgzEs6*ExikZfW.PFGBqefODJh5Gfklg6pJOGigJHiAnAkHT1Oxa.hQ9kUouYjwrw5Xkq7o!/b&bo=vghABgAMlAgBGV4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKV8ke90pFTWwlr3dgzEs6*m.dtDG7HZxH7e3SAQUyRWLA8BASW2inGLco3ZRoY3UANmviHR8R7OmNhrgsA63sY!/b&bo=yAhABkAMuAgBGUQ!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKV8ke90pFTWwlr3dgzEs6*CpgUml4MLbYCIkjTU*wtDDV3WoHTSX8kxrPBB2tqAAHrtrm8VmxHQjaVKDv0opj4!/b&bo=vghABkgMyAgBGUo!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKvtwZrCjV1f61*KwWEwdEZsW6m9wZv.bWChx0HanO7s*BkgSGHRohsdabkqgrZCtpTbHN1f*Y73E*gic3IJhE4!/b&bo=yQhABjAMrAgBGSE!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKvtwZrCjV1f61*KwWEwdEZLL8*4KnGG*WMqMdLT700JMseLbsEnXI.7fqVOWLKaMWwVtkfMjAi9mYulHsuHxpQ!/b&bo=ughABhwMrAgBKU4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKvtwZrCjV1f61*KwWEwdEbKfhqGd9aIJxjkXLka4VkAA9hnCJvNij0dWjiXQYL1GoGmI8gxeLDGas8AgkUt858!/b&bo=1wlABkgNcAgBGZs!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEKvtwZrCjV1f61*KwWEwdEbW2t9bOXjfZ88BsWdppbZEbzNsfRDuUGJS33ts5lCy*rDjv72HmYF00M4G2GLdL60!/b&bo=wwhABigMrAgBGTM!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEHIELr.PF3FhGyyknE1i0CTB2o2CtS*Fzqe04uiBO*QazF5IEYbNjAjVSI00Qay6OO6Lm3STJZEWl5NtzRQYDvs!/b&bo=rwhABigMwAgBKQM!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEHIELr.PF3FhGyyknE1i0CSTvR*0Rm2sBg1gPkkOUBlkDVuLsZUzU7Sh.xEFkgjcfr8xPaojBLIGe0ll1p026Ig!/b&bo=vwhABjQMuAgBGUc!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEHIELr.PF3FhGyyknE1i0CSEJBhxcGfLkDSC1BVOGp9SuvpScTw8DmJUeJg8SKC00M3VJ2UePtGiFivu.d9TgiE!/b&bo=xAhABggMlAgBGSw!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEHIELr.PF3FhGyyknE1i0CQW1W7XH51aWZtcW.GrGDKbR9kn.yL4ppcjmLVyuDxZKu0Gskai0F8RKNliPCyuptk!/b&bo=vAhABtwLfAgBGW8!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEEyYtcLsZL9YcyODfxB0IeuTiqET1pAsmQX2KtMRpf*nqvbsePri6Yb4prRMrojIdqb3EGkf0ix7mPZ3Tbqdilc!/b&bo=wAhABigVHA8BGZ4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEEyYtcLsZL9YcyODfxB0IethbjOYnFbadGmPRsf6YNfx1A6PRD0hfxRoAozq8WzX3n0KXlgBLriP4AsE5VAAim0!/b&bo=AAXyBvIGAAUBKQ4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEEyYtcLsZL9YcyODfxB0IevKCGeKfGCl4peKPPh26K55tfKYSlHj1jDl6LpL4y835KYe4G3rFyE30ual4uFqJv0!/b&bo=AAXeBt4GAAUBKQ4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrEEyYtcLsZL9YcyODfxB0Ies13R6cdKFtnVF82dhuOVQwrSpDFrEVJVSVmEJYR6ee0SEdRR*gWDeZplq3SLgCzMg!/b&bo=AAUUBxQHAAUBKQ4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrECsVRLTkL20FA3hXq1SyBoAhGUfbntoAPph8QAtBZXP6jiBag3q3r3sAjd6BXUt.gny1m*td1XEyvXxmjQSErSY!/b&bo=*wT4BvgG*wQBKQ4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrECsVRLTkL20FA3hXq1SyBoADLNcywWZtY5CR*pxvThSNdjwZ1ZxvRU5mPAO6jlQ8A30qm.T72KYLWOw395bocVE!/b&bo=AAX9Bv0GAAUBKQ4!&rf=viewer_4",
+        "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX36KfZi/TmEUgtj9EK6.7V8ajmQrECsVRLTkL20FA3hXq1SyBoA0SmtBI4rrSeLizLgTrO1FiG5YwfAGd1V0imWFVJ030B3NSaVYegqaJx9L9bafZ1Q!/b&bo=AAXyBvIGAAUBKQ4!&rf=viewer_4",
+      ];
+
+      // 基于URL数组生成photoData
+      const photoData = photoUrls.map((url, i) => {
+       const num = (i + 1).toString().padStart(2, '0');
+        return {
+        id: i + 1,
+        src: url, // 关键：改为src（原代码是Image，会导致图片不显示）
+        title: `南开×庄浪 ${num}`,
+        description: `与日新小学的小朋友们的共创活动成果 - 第${num}张`
+      };
+    });
+      
+      // 当前查看的照片索引
+      let currentPhotoIndex = 0;
+      
+      // 渲染照片网格
+      const photoGrid = document.getElementById('photo-grid');
+      function renderPhotos(photos) {
+        photos.forEach((photo, index) => {
+          const photoElement = document.createElement('div');
+          photoElement.className = 'masonry-item';
+          photoElement.setAttribute('data-aos', 'fade-up');
+          photoElement.setAttribute('data-aos-delay', (index % 6) * 100);
+          
+          photoElement.innerHTML = `
+            <div class="relative overflow-hidden rounded-lg shadow-md group cursor-pointer">
+              <!-- 修复：显示真实图片，替换占位符 -->
+              <img src="${photo.src}" alt="${photo.title}" class="w-full h-64 object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                <div class="p-4 text-white">
+                  <h3 class="font-bold">${photo.title}</h3>
+                  <p class="text-sm">${photo.description.substring(0, 30)}...</p>
+                </div>
+              </div>
+            </div>
+          `;
+          
+          // 点击照片查看大图
+          photoElement.addEventListener('click', function() {
+            openPhotoViewer(index);
+          });
+          
+          photoGrid.appendChild(photoElement);
+        });
+        
+        // 刷新AOS动画
+        AOS.refresh();
+      }
+      
+      // 初始渲染前20张照片
+      renderPhotos(photoData.slice(0, 20));
+      
+      // 加载更多按钮
+      const loadMoreBtn = document.getElementById('load-more');
+      let loadedCount = 20;
+      
+      loadMoreBtn.addEventListener('click', function() {
+        if (loadedCount >= photoData.length) {
+          this.innerHTML = '<i class="fa fa-check mr-2"></i> 已加载全部照片';
+          this.disabled = true;
+          this.classList.add('bg-gray-500');
+          this.classList.remove('bg-primary', 'hover:bg-primary/90');
+          return;
+        }
+        
+        // 加载下一批照片（每次加载10张）
+        const nextBatch = photoData.slice(loadedCount, loadedCount + 10);
+        renderPhotos(nextBatch);
+        loadedCount += nextBatch.length;
+        
+        // 更新按钮状态
+        if (loadedCount >= photoData.length) {
+          this.innerHTML = '<i class="fa fa-check mr-2"></i> 已加载全部照片';
+          this.disabled = true;
+          this.classList.add('bg-gray-500');
+          this.classList.remove('bg-primary', 'hover:bg-primary/90');
+        }
+      });
+      
+      // 照片查看器相关元素
+      const photoViewer = document.getElementById('photo-viewer');
+      const viewerImage = document.getElementById('viewer-image');
+      const viewerTitle = document.getElementById('viewer-title');
+      const viewerDescription = document.getElementById('viewer-description');
+      const viewerCounter = document.getElementById('viewer-counter');
+      const closeViewer = document.getElementById('close-viewer');
+      const prevImage = document.getElementById('prev-image');
+      const nextImage = document.getElementById('next-image');
+      const viewerDownload = document.getElementById('viewer-download');
+      const viewerShare = document.getElementById('viewer-share');
+      
+      // 打开照片查看器
+      function openPhotoViewer(index) {
+        currentPhotoIndex = index;
+        const photo = photoData[index];
+        
+        viewerImage.src = photo.src;
+        viewerTitle.textContent = photo.title;
+        viewerDescription.textContent = photo.description;
+        viewerCounter.textContent = `${index + 1} / ${photoData.length}`;
+        
+        photoViewer.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+      
+      // 关闭照片查看器
+      closeViewer.addEventListener('click', function() {
+        photoViewer.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      });
+      
+      // 上一张照片
+      prevImage.addEventListener('click', function() {
+        currentPhotoIndex = (currentPhotoIndex - 1 + photoData.length) % photoData.length;
+        updateViewer();
+      });
+      
+      // 下一张照片
+      nextImage.addEventListener('click', function() {
+        currentPhotoIndex = (currentPhotoIndex + 1) % photoData.length;
+        updateViewer();
+      });
+      
+      // 更新照片查看器内容
+      function updateViewer() {
+        const photo = photoData[currentPhotoIndex];
+        
+        viewerImage.src = photo.src;
+        viewerTitle.textContent = photo.title;
+        viewerDescription.textContent = photo.description;
+        viewerCounter.textContent = `${currentPhotoIndex + 1} / ${photoData.length}`;
+      }
+      
+      // 下载和分享功能
+      viewerDownload.addEventListener('click', function() {
+        alert(`下载 ${photoData[currentPhotoIndex].title}`);
+      });
+      
+      viewerShare.addEventListener('click', function() {
+        alert(`分享 ${photoData[currentPhotoIndex].title}`);
+      });
+      
+      // 键盘导航
+      document.addEventListener('keydown', function(e) {
+        if (photoViewer.classList.contains('hidden')) return;
+        
+        if (e.key === 'Escape') {
+          photoViewer.classList.add('hidden');
+          document.body.style.overflow = 'auto';
+        } else if (e.key === 'ArrowLeft') {
+          prevImage.click();
+        } else if (e.key === 'ArrowRight') {
+          nextImage.click();
+        }
+      });
+      
+      // 点击空白区域关闭查看器
+      photoViewer.addEventListener('click', function(e) {
+        if (e.target === photoViewer) {
+          photoViewer.classList.add('hidden');
+          document.body.style.overflow = 'auto';
+        }
+      });
+      
+      // 返回顶部按钮
+      const backToTop = document.getElementById('back-to-top');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 300) {
+          backToTop.classList.remove('opacity-0', 'invisible');
+          backToTop.classList.add('opacity-100', 'visible');
+        } else {
+          backToTop.classList.add('opacity-0', 'invisible');
+          backToTop.classList.remove('opacity-100', 'visible');
+        }
+      });
+      
+      backToTop.addEventListener('click', function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>

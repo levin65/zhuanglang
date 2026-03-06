@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>庄浪资源库</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 统一的 Tailwind 配置 -->
+   <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#653523',
+            secondary: '#EEB88A',
+            dark: '#5A5C56',
+            light: '#F5F5F5',
+            accent: '#019485',
+            'bg-gray-200': '#557937'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          }
+        }
+      }
+    }
+  </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+            .transition-all-300 {
+                transition: all 0.3s ease;
+            }
+            
+        }
+    </style>
+</head>
+<body class="bg-light font-sans text-dark">
+     <!-- 顶部导航栏 -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center">
+        <h1 class="text-2xl font-bold text-yellow-800">
+          庄浪数字文化资源平台
+        </h1>
+      </div>
+      
+      <div class="flex items-center space-x-6">
+        <a href="index.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">首页</a>
+        <a href="ziyuanku.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字资源库</a>
+        <a href="yingxiangzhi.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字影像志</a>
+        <a href="wenlvguan.html" class="font-bold text-yellow-800 hover:text-yellow-700 transition-colors">数字文旅馆</a>
+        </button>
+      </div>
+    </div>
+  </header>
+
+    <!-- 搜索栏 -->
+    <div class="bg-light py-4 shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-grow relative">
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="请输入物品名称或分类进行搜索..." 
+                        class="w-full px-4 py-2 rounded-lg border-2 border-accent focus:outline-none focus:border-primary"
+                    >
+                    <div class="absolute right-3 top-2 flex space-x-2">
+                        <button id="search-by-name" class="text-primary hover:text-accent transition-all-300">
+                        </button>
+                        <button id="search-by-category" class="text-primary hover:text-accent transition-all-300">
+                        </button>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button id="search-button" class="bg-primary hover:bg-accent text-white px-6 py-2 rounded-lg transition-all-300">
+                        搜索
+                    </button>
+                    <button id="reset-button" class="bg-gray-300 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-all-300">
+                        重置
+                    </button>
+                </div>
+            </div>
+            <div class="mt-2 text-sm text-gray-600">
+                <span id="search-mode-indicator">当前搜索模式: 物品名称</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主体内容 -->
+    <main class="flex-grow container mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
+        <!-- 左侧分类导航 -->
+        <aside id="category-sidebar" class="w-full md:w-1/5 bg-white rounded-lg shadow-md p-4">
+            <h2 class="text-xl font-bold mb-4 text-primary border-b-2 border-secondary pb-2">文物分类</h2>
+            <nav>
+                <ul class="space-y-2">
+                    <li>
+                        <div class="category-item cursor-pointer flex justify-between items-center py-2 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">
+                            <span>材质</span>
+                            <i class="fa fa-chevron-down transition-all-300"></i>
+                        </div>
+                        <ul class="subcategory-list pl-4 mt-1 space-y-1 hidden">
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">石器</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">陶器</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">铜器</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">瓷器</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">金银珠玉</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">古堡</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">其他</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="category-item cursor-pointer flex justify-between items-center py-2 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">
+                            <span>年代</span>
+                            <i class="fa fa-chevron-down transition-all-300"></i>
+                        </div>
+                        <ul class="subcategory-list pl-4 mt-1 space-y-1 hidden">
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">旧石器时代</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">新石器时代</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">秦汉</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">魏晋十六国</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">隋朝</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">唐朝</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">五代</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">宋朝</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">元朝</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">明朝</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">清朝</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">中华民国</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="category-item cursor-pointer flex justify-between items-center py-2 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">
+                            <span>级别</span>
+                            <i class="fa fa-chevron-down transition-all-300"></i>
+                        </div>
+                        <ul class="subcategory-list pl-4 mt-1 space-y-1 hidden">
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">一级文物</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">二级文物</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">三级文物</li>
+                            <li class="subcategory-item cursor-pointer py-1 px-3 rounded-md hover:bg-secondary hover:text-white transition-all-300">一般文物</li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- 右侧物品展示区 -->
+        <section class="w-full md:w-4/5">
+            <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-primary">文物展示</h2>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600">排序方式:</span>
+                        <select id="sort-select" class="text-sm border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:border-primary">
+                            <option value="name-asc">名称 (A-Z)</option>
+                            <option value="name-desc">名称 (Z-A)</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="items-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- 物品卡片将通过 JavaScript 动态生成 -->
+                </div>
+                <div id="no-results" class="hidden py-8 text-center text-gray-500">
+                    <i class="fa fa-search-minus text-4xl mb-2"></i>
+                    <p>未找到匹配的文物，请尝试其他搜索条件</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 图片查看器模态框 -->
+    <div id="image-viewer" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
+        <div class="relative max-w-4xl max-h-[90vh]">
+            <button id="close-viewer" class="absolute -top-10 right-0 text-white text-2xl hover:text-gray-300 transition-all-300">
+                <i class="fa fa-times"></i>
+            </button>
+            <div class="bg-white p-2 rounded-lg">
+                <img id="viewer-image" src="" alt="文物大图" class="max-w-full max-h-[80vh] object-contain">
+                <div class="mt-2 text-center">
+                    <h3 id="viewer-title" class="text-lg font-bold text-primary"></h3>
+                    <p id="viewer-description" class="text-sm text-gray-800"></p>
+                </div>
+                <div class="mt-4 flex justify-center space-x-4">
+                    <button id="zoom-in" class="bg-primary hover:bg-accent text-white px-4 py-2 rounded-lg transition-all-300">
+                        <i class="fa fa-search-plus mr-1"></i> 放大
+                    </button>
+                    <button id="zoom-out" class="bg-primary hover:bg-accent text-white px-4 py-2 rounded-lg transition-all-300">
+                        <i class="fa fa-search-minus mr-1"></i> 缩小
+                    </button>
+                    <button id="reset-zoom" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-all-300">
+                        <i class="fa fa-refresh mr-1"></i> 重置
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- 页脚 -->
+  <footer class="bg-dark text-white py-6">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- 关于我们 -->
+        <div data-aos="fade-up">
+          <h3 class="text-lg font-semibold mb-4">关于我们</h3>
+          <p class="text-gray-400 mb-4">致力于庄浪县文化遗产的数字化保护、研究和传播，让千年文明焕发新的生机。</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-facebook"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-twitter"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- 快速链接 -->
+        <div data-aos="fade-up" data-aos-delay="100">
+          <h3 class="text-lg font-semibold mb-4">快速链接</h3>
+          <ul class="space-y-2">
+            <li><a href="home.html" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+            <li><a href="ziyuanku.html" class="text-gray-400 hover:text-white transition-colors">数字资源库</a></li>
+            <li><a href="yingxiangzhi.html" class="text-gray-400 hover:text-white transition-colors">数字影像志</a></li>
+            <li><a href="wenlvguan.html" class="text-gray-400 hover:text-white transition-colors">数字文旅馆</a></li>
+          </ul>
+        </div>
+        
+        <!-- 联系方式 -->
+        <div data-aos="fade-up" data-aos-delay="200">
+          <h3 class="text-lg font-semibold mb-4">联系方式</h3>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <i class="fa fa-map-marker text-gray-400 mt-1 mr-2"></i>
+              <span class="text-gray-400">甘肃省平凉市庄浪县北滨河路与紫荆北街交叉口</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-phone text-gray-400 mr-2"></i>
+              <span class="text-gray-400">8888-8888</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-envelope text-gray-400 mr-2"></i>
+              <span class="text-gray-400">info@zhuanglangwenwuziyuan.com</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div data-aos="fade-up" data-aos-delay="300">
+        
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+        <p class="text-gray-400">© 2025 平凉市庄浪县. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+    <script>
+        // 文物数据
+        const items = [
+            {
+                id: "item001",
+                name: "常山下层文化篮纹陶罐",
+                material: "陶器",
+                period: "新石器时代",
+                grade: "二级文物",
+                description: "水洛镇党家坪出土。高35.5cm，口径11cm，底径12cm。泥质灰陶。喇叭口，束颈，丰肩，斜腹，小平底。肩部饰三周剔刺纹，腹部饰附加堆纹及篮纹。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEGfC6RWxR*YC4B4Q2XHSI5qCY6j8za3idcACra5GbrXZsC9LTzPkj1UwvUGTpAFEfwSl8aNiO66Uh3l7hc781nE!/b&bo=QAZgCcAPoBcBCXk!&rf=viewer_4"
+            },
+            {
+                id: "item002",
+                name: "常山下层文化双耳三耳陶罐",
+                material: "陶器",
+                period: "新石器时代",
+                grade: "一级文物",
+                description: "明良邑镇滴水崖出土。高14.2cm，口径8.5cm，足距11cm。泥质红陶。侈口，圆唇，束颈，圆肩，宽带双耳连接口沿与肩，鼓腹下收，平底，器底等距置三铲形足，足外撇。肩上饰一圈锥刺纹，耳上刻划三角纹。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEGfC6RWxR*YC4B4Q2XHSI5qUU8v6.EfKKzzstjY1ziYikaUZWhzShCiA.KVSJPyd4KQgCYckEgsa1AM1BXfxQp8!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item003",
+                name: "常山下层文化双耳双耳陶杯",
+                material: "陶器",
+                period: "新石器时代",
+                grade: "一级文物",
+                description: "朱店镇吴家沟遗址出土。高5cm，长22cm。泥质红陶。泥质红陶。两杯大小形制相同，平面呈“8”字形，两杯沿部相连，侈口，圆唇，浅弧腹，小平底微凹，两杯口沿至腹下部连接牛鼻形捉手。通体饰篮纹，口沿处附加指压纹。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEGfC6RWxR*YC4B4Q2XHSI5p6SZMTTDi4kfCr2Gu71a8XezHL4w0xdWAvno58SXfcLKtwslBywkkmi7hyIFSeaPA!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item004",
+                name: "春秋鸟兽纹铜戈",
+                material: "铜器",
+                period: "秦汉",
+                grade: "一级文物",
+                description: "韩店镇西面塬遗址出土。总长18cm，高9.4cm，援长9.5cm，胡长7cm，内长6.4cm，内宽4cm。青铜铸造，前锋尖削，直援微鼓，长胡有阑，阑侧三穿，长方形直内。内及援胡处饰鸟兽纹，以含锡金属错嵌而成，凤鸟扬冠勾喙，瑞兽昂首卷尾。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEGfC6RWxR*YC4B4Q2XHSI5r5k6TWFP8k0vv1NbIjQH*oJp0LzQ7xMBJwoXpP1yZocegA5ZlV9PQ6zC7etukAgFs!/b&bo=wAjQBcAI0AUBCS4!&rf=viewer_4"
+            },
+            {
+                id: "item005",
+                name: "汉代盒形铜灯",
+                material: "铜器",
+                period: "秦汉",
+                grade: "二级文物",
+                description: "南湖镇北关村出土。高16出门，长13.5cm，宽7.5cm。青铜铸造。盒形，椭圆腹，双系耳，四足方座。盖面饰弦纹，可翻转作灯盘。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrED2ebIauPYrHrIRs3XnXlmBYtNGzPBQhXO69gaoEbW1Wu8O164covdzLpmEnh295qU2E6yGjfJ94k1JQG0exzHk!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item006",
+                name: "汉代尚方铭四神规矩铜镜",
+                material: "铜器",
+                period: "秦汉",
+                grade: "一级文物",
+                description: "民间征集。直径18.7cm，缘厚0.5厘米，重850克。青铜铸造。圆钮，方座，规矩界格，四神乳钉。镜缘饰锯齿、双线波折纹，内区环布尚方铭文。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrED2ebIauPYrHrIRs3XnXlmC6FdY.M*H6L8Wu1Z8aTOBhhUnAclArGKxzfT8CEO4x9hDpkWQWhqMUI2OsysirQ3s!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item007",
+                name: "汉代铜鼎汉代铜扁壶",
+                material: "铜器",
+                period: "秦汉",
+                grade: "二级文物",
+                description: "南湖镇余家塬遗址出土。高31.5cm，足径16.2cm。青铜铸造。小口，束颈，扁圆腹，方座。腹两侧置铺首衔环，盖顶设钮，器身素面，呈古铜色。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrED2ebIauPYrHrIRs3XnXlmBWEL66QKwSgt**LIErZMIdY3axpSOw.BNNfSgyncxO7taR5H.BX*5vHMlbtkDHVr0!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item008",
+                name: "汉代铜鼎",
+                material: "铜器",
+                period: "秦汉",
+                grade: "二级文物",
+                description: "南湖镇余家塬遗址出土。高16.4cm，双耳距 22.4cm。青铜铸造。敛口，立耳，深鼓腹，圜底，三蹄足。腹部饰弦纹，肩腹间置对称双耳，形制规整。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrED2ebIauPYrHrIRs3XnXlmCF*5tWHMGu77nARTysJn0Bnj3kCRsqQWoarNha54.Ujwu1bhzt9.fBpzz7mKSDEPY!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item009",
+                name: "汉代铜钫",
+                material: "铜器",
+                period: "秦汉",
+                grade: "二级文物",
+                description: "良邑乡杨王村出土。高35.9cm，口径11cm，底径 13.5cm。青铜铸造。方口，束颈，溜肩，方腹，圈足，腹两侧铺首衔环。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrELhF.jqjrylwBgQttfySdqyo2O.yJPkaHx0IdaVXqg9q2*ApXRXJlaN7XU5mjTYguOSMJPYDYeuhNu3c5QcJkfU!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item010",
+                name: "金代磁州窑虎形瓷枕",
+                material: "瓷器",
+                period: "宋朝",
+                grade: "一级文物",
+                description: "水洛镇寺坪塬遗址出土。长35cm，宽14cm，高8.8cm。瓷质胎体，施白色化妆土。作卧虎形，虎背为腰圆形枕面，前低后高。虎身黄地黑彩绘斑纹，鼻穿透气孔；枕面白地黑彩绘花卉纹，笔法写意，釉面温润。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrELhF.jqjrylwBgQttfySdqz5e5sjiY3j5OrttWSXkb3zreqMg4thWl7ED1Go*WTrEOEz7hlkRLQG3GIipNps7MU!/b&bo=wAjQBcAI0AUBGT4!&rf=viewer_4"
+            },
+            {
+                id: "item011",
+                name: "金代景德镇窑影青瓷碗",
+                material: "瓷器",
+                period: "宋朝",
+                grade: "一级文物",
+                description: "水洛镇寺坪塬遗址出土。高6.8cm，口径20cm，底径5.5cm。瓷质胎体，施影青釉。敞口，斜弧腹，矮圈足。碗内刻划婴戏纹，外以水波纹环绕，线条流畅，釉色莹润，呈 “青如天、明如镜” 之态。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrELhF.jqjrylwBgQttfySdqxFsku5e7hIzzk97oQVK5dgckHNKjDj9hK8jOO2Mmot3Hmg0XsgJ0DXVllstPSkwPM!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item012",
+                name: "马家窑文化双耳平行线纹彩陶瓶",
+                material: "陶器",
+                period: "新石器时代",
+                grade: "一级文物",
+                description: "岳堡镇张家嘴出土。高26cm，口径7.4cm，底径6cm。泥质桔黄陶。敞平口，细直颈，圆折肩，斜直腹，半环双耳，小平底。绘黑彩纹饰，颈肩及上腹绘平行线纹，折肩处绘弧线纹，腹以下绘平行线和水波纹。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrELhF.jqjrylwBgQttfySdqx2yMiUFgPmN5Ap0WvvFxYyuqLzey31fGzjKnQqHpdsQG.k8.1PCOyFDPsKvJdtiq0!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item013",
+                name: "民国粉彩四季山水图瓷方瓶",
+                material: "瓷器",
+                period: "中华民国",
+                grade: "三级文物",
+                description: "旧藏。高58.4cm，口径16.6cm。白釉粉彩。方形，方唇微敞，长颈收束，平直斜深腹，底足微 凹。肩部两侧堆塑对称狮首衔环，瓶身四面分别为粉彩四季青绿 山水图。为近现代著名绘瓷艺术家、珠山八友之一汪野亭于民国 二十六年所绘。其设色淡雅清新，韵味十足。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEK*qy6Lw66mj0KFUkxx4pKsAO7jGWjzZkK1dRfb6uF*PugBGXs*iwotMhlk5s7H090D1gl1UqtBvC.ekoEYQU1A!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item014",
+                name: "齐家文化玉璧",
+                material: "金银珠玉",
+                period: "新石器时代",
+                grade: "一级文物",
+                description: "良邑乡苏苗塬头遗址出土。外径22cm，内径6cm，厚1cm。玉质，呈黄褐至青黄色，局部带天然纹理与沁色。扁平正圆形，中孔规整，器表打磨光滑，素面无纹，边缘切割齐整。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEK*qy6Lw66mj0KFUkxx4pKvpAOwy9rPauelPEebBc3bqUkvxl48yjtqSCORdlcMmMAf44WTLF6PqwcGMuciBM6c!/b&bo=ZQlABqAQEAsBGb8!&rf=viewer_4"
+            },
+            {
+                id: "item015",
+                name: "齐家文化玉琮",
+                material: "金银珠玉",
+                period: "新石器时代",
+                grade: "一级文物",
+                description: "1974年柳梁乡野狐湾出土。高6.7cm，宽7.2cm，孔径6.7cm。其形内圆外方，中空，孔大璧薄，表面光滑细腻，玉质温润。有学者认为可能是新疆和田玉制作。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEK*qy6Lw66mj0KFUkxx4pKt*xq5znNUXvIFWp0Kfac1EnCLlSSo3xYyJh0F7cHVg7qlHcZpl8yh6R5ELT6uEfSM!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item016",
+                name: "齐家文化玉钺",
+                material: "金银珠玉",
+                period: "新石器时代",
+                grade: "一级文物",
+                description: "柳梁乡野狐湾出土。长29.5cm，宽11cm，厚0.4cm。玉质，呈青灰至黄褐色，带天然沁色与纹理。器身呈长条形，上端略宽，刃部平直，中部一圆孔，器身饰数道平行弦纹，刃缘锋利，体现了齐家文化玉礼器的庄重风格。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEK*qy6Lw66mj0KFUkxx4pKuXJCx7vf6yCu7og9mzZ4EerygBXpgIFLBV9LBKfclSkwuqqwzrEbiQj.G6CYmjRCI!/b&bo=0AXACNAFwAgBGT4!&rf=viewer_4"
+            },
+            {
+                id: "item017",
+                name: "清代粉彩“辕门斩子”图瓷瓶",
+                material: "瓷器",
+                period: "清朝",
+                grade: "三级文物",
+                description: "旧藏。高62cm，口径22cm，底径20cm。瓷质胎体，施白釉。盘口，长颈，鼓腹，圈足。颈部堆塑螭龙、兽首衔环等立体装饰；器身以粉彩为主，辅以描金，颈部开光绘人物故事，腹部开光绘 “辕门斩子” 战争场景，人物众多，色彩艳丽；开光外以缠枝花卉纹填充，近足处饰变体莲瓣纹，整体工艺繁复，是清代粉彩瓷的典型代表。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEPQfnd*Ivv7X6K4JfkFlMBE8Zqo4CVz0.4Ln.irCJACxULhSXMB4YuLXUC3lE5DtrbSwxOdVYdGzWoXoitD5Y4s!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item018",
+                name: "清代粉彩花鸟瓷瓶",
+                material: "瓷器",
+                period: "清朝",
+                grade: "三级文物",
+                description: "旧藏。高65cm，口径23cm，底径16cm。瓷质胎体，施豆青釉。撇口，长颈，鼓腹，圈足。颈部对称置双螭耳；器身以青花、粉彩堆塑技法，绘花鸟山石图：菊花盛放，禽鸟或栖于石上，或振翅飞翔，山石嶙峋，兰草点缀，层次分明，色彩清雅，体现了清代景德镇制瓷工艺的高超水平。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEPQfnd*Ivv7X6K4JfkFlMBGprUB0RMTGGf2D5eAxs5cmwRAa0MHjkvM0YkspOFlu9XzofKdlz326ltqKcijo05A!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item019",
+                name: "清代鎏金铜佛座像",
+                material: "铜器",
+                period: "清朝",
+                grade: "三级文物",
+                description: "水洛镇紫荆山出土。高16cm，宽10.8cm，厚8.8cm。青铜鎏金，鎏金层局部有磨损与绿锈。结跏趺坐于仰覆莲座之上，螺髻规整，面相沉静，袒右肩，披袈裟，衣褶流畅。右手结施无畏印，左手托钵，莲座饰双层莲瓣纹，座底有圆孔，工艺精湛，体现了藏传佛教造像的典型风格。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEPQfnd*Ivv7X6K4JfkFlMBEJMGX*XVcRRE6y4AjLlAkOaRoQa20xOzT9tUAvFA5MwP7bcdcHV8Bi7l0L3B.wTWs!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item020",
+                name: "清代青花双龙戏珠瓷瓶",
+                material: "瓷器",
+                period: "清朝",
+                grade: "三级文物",
+                description: "旧藏。高63cm，口径21cm，底径17cm。瓷质胎体，施白釉。撇口，长颈，鼓腹，圈足。器身以青花绘双龙戏珠纹，龙首昂扬，五爪矫健，穿行于浓淡晕染的云气之间，青花发色浓艳，层次丰富，是清代青花瓷器的典型代表。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEPQfnd*Ivv7X6K4JfkFlMBFlGtQa5ZXtktwiiH7ZxYtBNh8FBIg0EqAJn0g7*M*QwiYbhQvnGMmlpD*1clMh8HE!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item021",
+                name: "清代青花双喜番莲纹瓷瓶",
+                material: "瓷器",
+                period: "清朝",
+                grade: "三级文物",
+                description: "旧藏。高42cm，口径16cm，底径15cm。瓷质胎体，施豆青釉为地。盘口，长颈，溜肩，鼓腹，圈足。颈部对称置青花螭龙耳，口沿饰回纹，近足处饰变体莲瓣纹；器身以青花绘番莲纹为地，颈、腹主题位置留白书“囍”字，青花发色浓艳，纹饰缠连繁复，形制规整，是清代婚嫁用瓷的典型器物。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEFMhmQhswyNigqaiEcW2j9BVkfMmO6UDZY8.ts7WH.E*OQXO9NLkfvOJLWdtY2vpqZhdxmZodWksBuztREXebzE!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item022",
+                name: "清代五彩福星瓷像",
+                material: "瓷器",
+                period: "清朝",
+                grade: "三级文物",
+                description: "旧藏。高46cm，宽16cm。瓷质胎体，施白釉。福星呈立姿，头戴蓝绿相间的官帽，面容饱满，长髯垂胸，身着绿地花卉纹袍，袍边饰蓝地卷草纹，足蹬黑靴；怀中抱一红衣童子，童子手持金锭，寓意 “福星送子、富贵吉祥”。整体以五彩釉彩绘，色彩艳丽，人物神态生动，是清代景德镇瓷塑的典型作品。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEFMhmQhswyNigqaiEcW2j9BHes.TgU4bW6gMlUJfkK0DXej3VjvJi2UE5Mz.MHAh*QhQV1BGa7.THr6VWNO5utM!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item023",
+                name: "清代五彩禄星瓷像",
+                material: "瓷器",
+                period: "清朝",
+                grade: "三级文物",
+                description: "旧藏。高45cm，宽14cm。瓷质胎体，施白釉。禄星呈立姿，头戴红地金饰官帽，面相丰腴，长髯垂腹，身着红地织金纹官袍，袍身绘绿龙纹，下裳饰海水江崖与五彩圭纹，足踏黑靴；双手持如意，釉色浓艳，纹饰繁复，人物仪态端庄，为清代粉彩瓷塑的典型吉祥题材器物。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEFMhmQhswyNigqaiEcW2j9BKV1oU9521O8dsQURqGeTgMEBstx84Qbv7s5iZ6KJdRLW8GSL7dhRR6Qj4W4VQwMQ!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item024",
+                name: "清代五彩农夫瓷像",
+                material: "瓷器",
+                period: "清朝",
+                grade: "三级文物",
+                description: "旧藏。高15cm，宽9.5cm。瓷质胎体，施白釉。农夫呈立姿，头戴宽沿草帽，面容清秀，身着黄地卷草纹袍，外罩黑釉披衫，赤足；双手握红色长柄农具，足踏红釉底座，整体以五彩装饰，色彩对比鲜明，人物形象写实生动，是清代民俗题材瓷塑的代表性器物。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEFMhmQhswyNigqaiEcW2j9AaWybL.MADs2kuBqQcIRFaRkRypIV7qPMOBUBwJnLLXI4GBVQzZZed76PT8y9bjVA!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item025",
+                name: "清代五彩樵夫瓷像",
+                material: "瓷器",
+                period: "清朝",
+                grade: "三级文物",
+                description: "旧藏。高14.5cm，宽7.5cm。瓷质胎体，施白釉。樵夫呈立姿，头剃短髮，留八字胡，身着浅灰地点彩花卉纹短袍，腰系红带，赤足；一手持烟杆作吸烟状，一手扶黑釉柴捆，神态悠然自得，以五彩装饰，色彩淡雅，人物形象生动写实，是清代民俗题材瓷塑的典型作品。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEDh9FwMSGW4aKKWs9CG*350obBcIqhhgcrcDjebH2h*UTmT2xILQlZ2GHe3t0hhPC6ABDvZYtZz*W45GBgpBxKQ!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item026",
+                name: "清代五彩寿星瓷像",
+                material: "瓷器",
+                period: "清朝",
+                grade: "三汉级文物",
+                description: "旧藏。高45cm，宽15cm。瓷质胎体，施白釉。寿星呈立姿，光头广额，长髯垂腹，面容慈和；身着黄地百花纹袍，下裳饰蓝地卷草纹与五彩圭纹，足蹬红靴；双手持红色寿杖，釉色浓艳繁复，人物仪态庄重，为清代吉祥题材瓷塑的典型器物。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEDh9FwMSGW4aKKWs9CG*35352hlUK*.4WqZxv8lzlUARNbNAiUI4E0xvym6SUbFO7PdwqFPpUiD6twX1D*ybBZc!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item027",
+                name: "清代五彩书生瓷像",
+                material: "瓷器",
+                period: "清朝",
+                grade: "三级文物",
+                description: "旧藏。高18cm，宽9.5cm。瓷质胎体，施白釉。人物呈立姿，头戴黑釉点绿饰官帽，面容清秀，身着浅青地点彩花卉纹长袍，腰系红带，足蹬黑靴；一手持白釉线装书，神态专注，以五彩装饰，色彩淡雅，人物形象生动写实，是清代民俗题材瓷塑的典型作品。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEDh9FwMSGW4aKKWs9CG*352fNt234FI5T5TGImHsXibQ5kwvXaHYjX.PbQGUgfH0KbLDqrS898ale6B92SSv.AQ!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item028",
+                name: "清代五彩鱼夫瓷像",
+                material: "瓷器",
+                period: "清朝",
+                grade: "三级文物",
+                description: "旧藏。高14.5cm，宽7.5cm。瓷质胎体，施白釉。渔夫呈立姿，光头短髮，留八字胡，身着绿地卷草纹长袍，内着蓝地卷草纹短裤，赤足；双手持描金渔具，足踏红釉底座，以五彩装饰，色彩对比鲜明，人物神态生动，是清代民俗题材瓷塑的典型作品。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEDh9FwMSGW4aKKWs9CG*350nzf2OMhSjbuap41sE3rJ66mE00NJsJ8hvsn4LSJjVNvl.wHuuN37tZ43GiyzIg8M!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item029",
+                name: "清代玉寿星",
+                material: "金银珠玉",
+                period: "清朝",
+                grade: "一级文物",
+                description: "民间征集。高15.5cm，宽9cm，厚4.7cm。玉质，呈青白色，质地温润细腻。圆雕寿星立像，寿星高额广颅，长髯垂胸，面容慈和；一手托寿桃，一手持根雕寿杖，衣褶流畅自然；旁侧圆雕灵猴捧桃，与寿桃枝相连，寓意 “灵猴献寿”。整体采用圆雕、浅浮雕与阴刻线结合技法，打磨莹润，是清代吉祥题材玉器的典型作品。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEMukMgnrjRlJ5CaN3Sz74wIL3fpdQDCoapv9pRTBLCL1GGoTWXrQPOYiMNK8kEs02Do0DXiJyI42H9bJ0*t*Tzo!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item030",
+                name: "双羊铜牌饰",
+                material: "铜器",
+                period: "秦汉",
+                grade: "二级文物",
+                description: "长11.16cm,宽5.7cm。青铜铸造，呈圆角长方形。边框饰乳钉纹，牌面浮雕双羊纹，羊首相对，中央为涡纹，辅以乳钉与镂空装饰，工艺粗犷，具北方游牧民族风格。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEMukMgnrjRlJ5CaN3Sz74wIOA1kL4naSwwGoATmjP5DFoj8xRm9esfk3j03DkUqVxg9S310kbov8EG12MplN.ro!/b&bo=RQlABqMZSREBOfY!&rf=viewer_4"
+            },
+            {
+                id: "item031",
+                name: "寺洼文化铃首铜短剑",
+                material: "铜器",
+                period: "秦汉",
+                grade: "一级文物",
+                description: "1983年水洛镇川口柳家遗址出土。长24cm，宽2.5cm。剑身扁平，中脊突棱，剑柄呈折曲绞索状，中有隔档，剑首镂空，内置铜丸。该剑形状别异，具有北方青铜器的特点。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEMukMgnrjRlJ5CaN3Sz74wIkXOrumU25qHyiyOXig45OUii1RihqXka974dSccKxiYmpPe9zAvd6OY5LMLNVQCA!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item032",
+                name: "寺洼文化马鞍口陶豆",
+                material: "陶器",
+                period: "秦汉",
+                grade: "二级文物",
+                description: "水洛镇朱家大湾出土。高11.7cm，口径12.7cm，足径9.2cm。陶质，呈土黄色，质地疏松。整体呈喇叭口、束腰、喇叭足的造型，器表素面无纹，仅见少量刮削痕迹，是早期陶制盛食器的典型形制。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEMukMgnrjRlJ5CaN3Sz74wKblS7vwdI4sYs1oARESCT9w0xzGX8wvzEYrHl5mCqxxWQmlUU4vfbZnB4UJpaJ2NI!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item033",
+                name: "寺洼文化马鞍口陶罐",
+                material: "陶器",
+                period: "秦汉",
+                grade: "二级文物",
+                description: "水洛镇徐碾村出土。高19cm，大口径13cm，小口径10cm，底径6.5cm。陶质，呈红褐色，质地粗疏。整体为马鞍形口、鼓腹、平底造型，肩部对称置双大耳，器表素面，可见刮削与修补痕迹，是早期游牧文化陶制盛水器的典型形制。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrECF04US*PK8Mje1tnLRLpGkP5JT1Xf*FcizqxB4OZsn*iwAB7Ci4YXQm*GF.uuzp2er0BuqdVjQn77aTJQCcdKg!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+            {
+                id: "item034",
+                name: "宋代石馆",
+                material: "石器",
+                period: "宋朝",
+                grade: "一级文物",
+                description: "水洛镇二郎山遗址释迦塔院地宫出土。长99cm，宽65cm，高90cm，重400kg。灰砂岩质。质地较为细腻，棺由棺盖、棺身、棺座三部分组成，棺盖呈七面体拱形，盖首阴刻双线边框，框内饰忍冬纹缠绕其间，边框内雕刻佛像，头部有背光，身着大衣，施禅定印，神态安详。棺身首部中间雕刻双扉，左右两侧为护法像，挺立而站。护法穿戴甲胄，足蹬马靴，左侧神像双手持鞭横于胸前，右侧神像右手持剑，垂立而站，神态威严。棺盖尾部和棺身尾部阴刻铭文计122字，在近棺口处各凿有两个如意头扣手，便于手抓套合，棺身略呈长方形，下部出沿，在出沿的平台上钻有许多细小圆孔，用来安插周围固定周围石雕护栏，平台下方四周雕凿凹如意头纹，前后各两组，左右各四组，排列有序，下部为三级须弥座，底部内凹，底座顶部四角雕凿凹形方槽，可与棺身底部四角凸起扣合。石棺通体施黑彩，融阴刻与线刻与一身，雕工精细，线条流畅，整体造形优美，保存完整。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrECF04US*PK8Mje1tnLRLpGnTbE9IosUNc7ZpFQF6kKQTTG5TjEjNa0k6jUUeNK*p9LeKBK0hDoao.TsQYVrog0E!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item035",
+                name: "隋代鎏金虎符",
+                material: "铜器",
+                period: "隋朝",
+                grade: "一级文物",
+                description: "阳川镇曹家塬遗址出土。高4.7cm，长7.2cm，厚0.9cm，重50g。青铜鎏金，表面有绿锈与包浆。整体呈昂首行走的虎形，张口露齿，尾上卷，造型矫健；虎身阴刻篆书铭文，颈部有穿。采用圆雕与阴刻结合工艺，是古代调兵遣将的信物，体现了战国至秦汉时期虎符的典型形制。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrECF04US*PK8Mje1tnLRLpGnSxByXoA7EGkH3oBJ7IW1mVX9xZgepAv9gvXD5Pfu1tBv9UHurIMKO.M.9YAabXKs!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item036",
+                name: "西魏石造像碑",
+                material: "石器",
+                period: "魏晋十六国",
+                grade: "一级文物",
+                description: "永宁乡罐子沟出土。高23.5cm，宽22.5cm，厚6.4cm。砂岩质，呈土黄色，质地疏松。整体为尖拱形造像碑，正面中央圆雕主尊坐像，结跏趺坐，右手施印，衣褶流畅；两侧各立一胁侍像，主尊头后饰莲瓣纹背光。采用圆雕与浅浮雕结合技法，风格古朴，是西魏时期佛教造像的典型遗存。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrECF04US*PK8Mje1tnLRLpGmyf8GprxbiAPLjQX8636Gh*rzzIK4H6ablD4FvxKP9swQKPUybcrJiGsYgog1pgK0!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item037",
+                name: "仰韶文化骨器",
+                material: "其他",
+                period: "新石器时代",
+                grade: "一级文物",
+                description: "三件骨器通长分别约为20cm、16cm、12cm，材质为兽骨。骨质，呈米黄与棕褐色，质地坚韧。三件器物均为长条形，一件为锥状，一件为针状，一件为簪状，表面光滑，可见打磨痕迹，是仰韶文化时期先民用于生产、生活或装饰的实用骨器。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrED*HQjMX*VeVJ*GUD7X3yKj2Tj.q2HPvCoo9f9fr5A4PDCJ0gk*gv7eeBMPUN5Pk.honrWQV31MJlU2jbli4Qqk!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item038",
+                name: "仰韶文化葫芦瓶",
+                material: "陶器",
+                period: "新石器时代",
+                grade: "一级文物",
+                description: "水洛镇徐碾村堡子坪遗址出土。高22cm，口径2.5cm，底径7.2cm。细泥红陶。葫芦形。小口，束颈，鼓腹下垂，小平底。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrED*HQjMX*VeVJ*GUD7X3yKjYqTozI9Tvi7nhwONtly4T79BP*QLZI6hKZfb4pa8dhUG*wdneIOPki*RvHDX67Tg!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },{
+                id: "item039",
+                name: "仰韶文化尖底瓶",
+                material: "陶器",
+                period: "新石器时代",
+                grade: "二级文物",
+                description: "朱店镇吴家沟遗址出土。高33cm，口径7.2cm。夹砂黄陶。敞口，束颈，溜肩，双耳，腹斜收，尖底。器腹满饰交叉或斜绳纹。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrED*HQjMX*VeVJ*GUD7X3yKgXC*GsubRb9i37w.kbQTAdOLkJnUY.*FFmgOmmx41oXeOrKAQJbXdIKrQdf3zXsgI!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item040",
+                name: "仰韶文化石丸",
+                material: "石器",
+                period: "新石器时代",
+                grade: "二级文物",
+                description: "共6件，直径约2.5–5.0cm，材质为黑曜岩、砂岩、花斑石等。石质，呈多色，均为磨制圆球形，表面光滑，磨制精细，是仰韶文化时期的弹丸或游戏用器。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrED*HQjMX*VeVJ*GUD7X3yKgiqm.3HZDihY74Ixi*EYGjMvEJjjB4T1IFAJdqlRhk.oY.HpKsUpozqCR5zfeAzd4!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+            {
+                id: "item041",
+                name: "仰韶文化四鋬钮陶罐",
+                material: "陶器",
+                period: "新石器时代",
+                grade: "二级文物",
+                description: "大庄镇王家川子出土。高38cm，口径16cm，底径19.5cm。细泥灰陶。敛口，圆唇，溜肩鼓腹，平底。近口沿处均匀饰四乳头状鋬。盖佚失。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEJhMkBfyoiMPatG2Gv58DNqDi3UXC*ZuGShj.O3j51o5vhcyqPI.2euW0nkVVCqMwySSSWECYvvjvEghW1wd8XQ!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+             {
+                id: "item042",
+                name: "仰韶文化陶鼓",
+                material: "陶器",
+                period: "新石器时代",
+                grade: "一级文物",
+                description: "朱店镇吴家沟遗址出土。高23cm，大口径16.1cm，小口径11cm。泥质灰陶。鼓中空圆筒形。大口端为钵形，口沿外卷，可束扎鼓面;小口端呈喇叭状，可扬声。内外壁磨光。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEJhMkBfyoiMPatG2Gv58DNpnryiSUdm.rn6UTTB*sAxaMvCvRNM08yuJXaFo*2Sui.RmppNqHwKc3M2iGEzKyt4!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+             {
+                id: "item043",
+                name: "仰韶文化直口束颈陶壶",
+                material: "陶器",
+                period: "新石器时代",
+                grade: "一级文物",
+                description: "岳堡镇岳堡村征集。高17.5cm，口径2.8cm，底径6.2cm。细泥红陶。葫芦形。小直口，细颈，溜肩，鼓腹，小平底。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEJhMkBfyoiMPatG2Gv58DNq12oMWJ04Z3GzjLMlFwQvrRrr*vWoDUT58X2JSzSLAc6U9OUnT3UaHm2WFvZyNOSA!/b&bo=QAZgCcAPoBcBGWk!&rf=viewer_4"
+            },
+             {
+                id: "item044",
+                name: "元代黑釉刻花瓷坛",
+                material: "瓷器",
+                period: "元朝",
+                grade: "一级文物",
+                description: "刘树谦捐赠。高35cm，口径5cm，底径14cm。瓷质，通体施黑釉，釉色莹润。小口，短颈，肩部对称置双系，鼓腹，圈足。器身采用剔刻花工艺，以流畅的卷草纹为主体，纹饰层次分明，线条遒劲，是北方窑系黑釉剔花瓷器的典型代表。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEJhMkBfyoiMPatG2Gv58DNqIS5YLG3huZpEkeQcT*oaWkQ8sC.1YQV1zoQnk.dHUONiykIXEamxSHVzZAun6BB8!/b&bo=0AXACNAFwAgBGT4!&rf=viewer_4"
+            },
+             {
+                id: "item045",
+                name: "元代兕皮盔",
+                material: "其他",
+                period: "元朝",
+                grade: "一级文物",
+                description: "1950年由庄浪县文教馆收藏。皮盔高23cm，沿高4cm，口径37.5cm。缀饰全失，上有三组锡条烙成的花纹，顶部有四组云纹，中部以横弦纹为界饰四竖条四圆圈较规律的图案，下部用大小联珠纹、乳钉纹组成花边。兕（音似，雌犀牛），是产于非洲的野生动物。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEBKOnAc2y6umIzDRdTg0Igw.Fu.0Q0tu8yYZ7BmpVvAC*Mwsc35Mdn*gHQgxy.pHbe9nRG2FUyo13fy3VotW1aA!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+             {
+                id: "item046",
+                name: "战国错银铜环",
+                material: "铜器",
+                period: "秦汉",
+                grade: "二级文物",
+                description: "朱店镇吴家沟遗址出土。直径6.9cm，环径0.9cm。青铜铸造，采用错金银工艺。整体呈圆环形，环身以流畅的卷云纹与涡纹为主体，金银丝交错镶嵌，纹饰细密华丽，体现了战国至秦汉时期青铜错金银工艺的高超水平。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEBKOnAc2y6umIzDRdTg0IgwPvELS10y8Hka9S28*.pd6LZU0juy6K6fB6FDfqTRrdtsZ2rVuUf5x9WuOq*6Gu78!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+             {
+                id: "item047",
+                name: "战国鎏金铜铺兽",
+                material: "铜器",
+                period: "秦汉",
+                grade: "一级文物",
+                description: "朱店镇吴家沟遗址出土。长5.9cm，宽7.4cm，厚3cm。青铜鎏金。整体为兽面造型，双目圆睁，鼻吻突出，两侧饰卷云纹与翼状装饰，下方衔环。采用浮雕与鎏金结合工艺，纹饰华丽，是战国时期青铜构件的典型代表。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEBKOnAc2y6umIzDRdTg0Igyedxj1Ho*.e1IkdlGF6gbOvYRzd5ZSvMFx5cJNSmAFlu2c8pXnKn8N.b2XofHmZTI!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+             {
+                id: "item048",
+                name: "战国镶琉璃镂空凤鸟纹鎏金铜饰",
+                material: "铜器",
+                period: "秦汉",
+                grade: "一级文物",
+                description: "朱店镇吴家沟遗址出土。长52.2cm，宽14.7cm，厚3.7cm。青铜鎏金。整体呈弧形，两端上翘，器身采用镂空工艺，饰以流畅的凤鸟纹与卷云纹，多处镶嵌琉璃饰件。纹饰华丽，工艺精湛，是战国至秦汉时期青铜鎏金镶嵌工艺的典型代表。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEBKOnAc2y6umIzDRdTg0Igyl2v18zv50QGh6xy8rEOnQGTh6XknBk8OuHgvittwa3AfqsTTqOKyBJIdBepvP1Z4!/b&bo=YAlABqAXwA8BGWk!&rf=viewer_4"
+            },
+             {
+                id: "item049",
+                name: "战国玉龙",
+                material: "金银珠玉",
+                period: "秦汉",
+                grade: "三级文物",
+                description: "通高约18cm；宽约15cm；厚约0.6cm.青玉质，色深绿，局部有残损。器呈镂空龙形，龙身蜷曲，满饰浅浮雕谷纹，线条流畅，钻孔规整，为战国时期玉龙形佩的典型残件。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK6.7V8ajmQrEJbTWJwFG9xhvfYw8pETqtchamtUN9FKM7lb9U1wmy09IsZ6lzaU9MjDjbrjp5UsDHQwUiqx83NWLiSNKPvpADY!/b&bo=YAlABqAXwA8BKVk!&rf=viewer_4"
+            },
+             {
+                id: "item050",
+                name: "五神伏龙陶模",
+                material: "陶器",
+                period: "宋朝",
+                grade: "一级文物",
+                description: "水洛镇寺坪塬遗址出土。高11.7cm，宽7.9cm，厚1.7cm。陶质，呈土黄色，质地细腻。整体为椭圆形，正面以浅浮雕技法刻绘五神伏龙纹：龙身蜿蜒，鳞甲分明，五神或骑乘、或攀附，衣带飘举，神态生动。纹饰层次丰富，线条流畅，是古代陶范或陶模的典型工艺遗存。",
+                imageUrl: "https://photogzmaz.photo.store.qq.com/psc?/V13DTfOf0ise15/TmEUgtj9EK6.7V8ajmQrEBnLFlfkNp84rkgJRvzpL9x.d3H87MtLBtQz0nW4jhkzXk4eDZzlUJEKDCU6rDD*2YMAa88*NMFFXREMHfEqdVs!/b&bo=0AXACNAFwAgBByA!&rf=viewer_4"
+            },
+             {
+                id: "item051",
+                name: "蒲家堡",
+                material: "古堡",
+                period: "盘安镇",
+                grade: "未知",
+                description: "庄浪县城水洛镇正南方向，盘安镇政府驻地西南，蒲姓村落附近。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEPQfnd*Ivv7X6K4JfkFlMBHexJI3StXG9FFaQ4g1SzuRLh9ETk97G6jC09kM.fWQ24d5CXA793.uMAgdaKpdA0A!/b&bo=xgdABq8bQxYBCUg!&rf=viewer_4"
+            },
+             {
+                id: "item052",
+                name: "旗峰堡",
+                material: "古堡",
+                period: "未知",
+                grade: "未知",
+                description: "未知",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEPQfnd*Ivv7X6K4JfkFlMBE2amsbqOexBjsr*qiHOTOAsU7iyusMnDj697jnqBkpp3oQ7nWpiDUKGzNA9mvpnz4!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4"
+            },
+             {
+                id: "item053",
+                name: "宋堡",
+                material: "古堡",
+                period: "水洛镇",
+                grade: "未知",
+                description: "庄浪县城紫荆山公园山顶。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEFMhmQhswyNigqaiEcW2j9B*ws.GHdiz.95pwSYblxj169KxpY.1yw1*4YCVVf5wis8P7f*dCZcgQj*Vr6W*yjc!/b&bo=xgdABq8bQxYBCUg!&rf=viewer_4"
+            },
+            {
+                id: "item054",
+                name: "天台山堡子",
+                material: "古堡",
+                period: "郑河乡",
+                grade: "史川村",
+                description: "庄浪县郑河乡史川村北侧天台山山顶，属关山桃木山余脉浅山高峰台地。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEFMhmQhswyNigqaiEcW2j9Bm58aakpN32wq4Lyir4ECB2OZ7tywPqn6Acv9Vl46t9EUqXdoGlWfHT*zB5R*NbHE!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4"
+            },
+            {
+                id: "item055",
+                name: "万家堡",
+                material: "古堡",
+                period: "万泉镇",
+                grade: "万堡村",
+                description: "水洛镇西南、万泉镇北部，地处水洛河下游河谷地带。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEFMhmQhswyNigqaiEcW2j9CxRWIW5VIo7mBP7RCTN0dSGXheskfPb9kWEhnvTXA*ooimBG2w4S0d.DENrDN1hJM!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4"
+            },
+            {
+                id: "item056",
+                name: "王家湾堡",
+                material: "古堡",
+                period: "柳梁镇",
+                grade: "王家湾村",
+                description: "水洛镇正北、柳梁镇南部，地处水洛北山台塬地带。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEFMhmQhswyNigqaiEcW2j9C7ypoQrqSyEDmiwODmkCGlPhIFLHsrbru.8R2ceBBxETF4bZcNzIfIzaWMqdW5KU4!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4"
+            },
+            {
+                id: "item057",
+                name: "魏家阴洼堡",
+                material: "古堡",
+                period: "卧龙镇",
+                grade: "魏家山村",
+                description: "水洛镇正西、卧龙镇东部，地处卧龙塬边缘山梁地带。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEDh9FwMSGW4aKKWs9CG*351NU2h88oUCI2qNjBKIzri8bkqUW9QsPmtuzhnPebfrLY7vdulOLPxzBKvcHCKjo7s!/b&bo=xgdABq8bQxYBWRg!&rf=viewer_4"
+            },
+            {
+                id: "item058",
+                name: "西关堡",
+                material: "古堡",
+                period: "水洛镇",
+                grade: "西关村",
+                description: "水洛镇政府正西方向、西关村境内，北依紫荆山，南邻水洛河，为北宋水洛城西部。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEDh9FwMSGW4aKKWs9CG*350jLZXz5H2O2mnZltg1PH8uPNU1RsW1.8wNBIy37dulmwOY4*WrG6JQb8so7H0KXxU!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4"
+            },
+            {
+                id: "item059",
+                name: "小庄堡",
+                material: "古堡",
+                period: "杨河乡",
+                grade: "逯岔村",
+                description: "水洛镇西北、杨河乡北部，地处乐正河流域梁峁地带，邻近逯岔村八社。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEDh9FwMSGW4aKKWs9CG*350fquBtT6Qq1g7KxHibI0Y*I.iBjJTdXyzDz1gG7.MZFFIQ922H5yBDpexbrtd1nfo!/b&bo=xgdABq8bQxYBWRg!&rf=viewer_4"
+            },
+            {
+                id: "item060",
+                name: "杨家堡",
+                material: "古堡",
+                period: "阳川镇",
+                grade: "杨家堡子村",
+                description: "水洛镇西南、阳川镇中部，地处水洛河下游河谷地带，邻近李家湾村、岳坪村。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEDh9FwMSGW4aKKWs9CG*352*.aQMZQ70iajXvva.DUbQgwkKFvg*zC7DG9sfzCH2r2*OOa3bl0FJ54z1HVidoV0!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4"
+            },
+            {
+                id: "item061",
+                name: "杨家湾堡",
+                material: "古堡",
+                period: "朱店镇",
+                grade: "杨湾村",
+                description: "水洛镇西南、朱店镇东部，地处水洛河下游塬区，邻近董湾村、吴家沟村。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEMukMgnrjRlJ5CaN3Sz74wIlnWUpnnTNUHP3Hky2AGAuIHmCXqcXOgQ1LvCy93WhrenW1.yP4FCAoerIvTR7.nE!/b&bo=xgdABq8bQxYBWRg!&rf=viewer_4"
+            },
+            {
+                id: "item062",
+                name: "引龙山堡",
+                material: "古堡",
+                period: "秦汉",
+                grade: "三级文物",
+                description: "水洛镇东北、通化镇东部，地处关山峡谷，紧邻陈家洞石窟（龙眼山石窟）。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEMukMgnrjRlJ5CaN3Sz74wILeGpn9Ehgx0V566z68zy5z1U*0uPipAM0RoVYdZ.LfD273*ZZoqCQuzIRDScWXs8!/b&bo=xgdABq8bQxYBWRg!&rf=viewer_4"
+            },
+            {
+                id: "item063",
+                name: "元咀堡",
+                material: "古堡",
+                period: "杨河乡",
+                grade: "元咀村",
+                description: "水洛镇西北、杨河乡北部高海拔梁区，邻近乐正河支流沟谷。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEMukMgnrjRlJ5CaN3Sz74wKwOyh7x2xzjjZHqCFmriWibIuLWQFqAMVxDq6ZAn*PKogG0K17bsoDO0e91ERa1yI!/b&bo=xgdABq8bQxYBWRg!&rf=viewer_4"
+            },
+            {
+                id: "item064",
+                name: "张家沟堡",
+                material: "古堡",
+                period: "良邑镇",
+                grade: "张家沟村",
+                description: "水洛镇东北、良邑镇南部浅山沟壑区，邻近庄浪县城东北郊，地处梯田梁峁地带。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEMukMgnrjRlJ5CaN3Sz74wKOM641l5BCPhFHFdLFXPvw58HP1HRL*L1dTtnukFM2U4JiSK8dlzgTJL3vHbhMYAg!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4"
+            },
+            {
+                id: "item065",
+                name: "中峰堡",
+                material: "古堡",
+                period: "未知",
+                grade: "未知",
+                description: "水洛镇东北、良邑镇与通化镇交界地带，邻近梯田沟壑区。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrECF04US*PK8Mje1tnLRLpGm6rzzANIsIJgi1C3wPXQRWYktFjzH3aziWJtyunDVoi9SqqP9BamhM12IfTI3vQPo!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4"
+            },
+            {
+                id: "item066",
+                name: "陈家下岔堡",
+                material: "古堡",
+                period: "柳梁镇",
+                grade: "下岔村",
+                description: "今庄浪县水洛镇以北偏东，南湖镇东南方向，邻达舍堡沟中游地带，同属该流域古堡群。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEDh9FwMSGW4aKKWs9CG*353IfbamFAr*wTxxsYYucroe8hsHVbCQnvZroxhPBdIAzxiZiq3CcPX*JYVw1.Jdpik!/b&bo=xgdABq8bQxYBaSg!&rf=viewer_4"
+            },
+            {
+                id: "item067",
+                name: "达舍堡",
+                material: "古堡",
+                period: "柳梁镇",
+                grade: "李堡村",
+                description: "自良邑镇杨李湾村山梁西麓，经柳梁镇徐家村、杨家川子、周蒲村、李堡村，延伸至南湖镇双堡子村汇入庄浪河。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEDh9FwMSGW4aKKWs9CG*351VkspaW5GBK4kfNCVndV*HO9b0z09vVlpmT0F1YCLE7JOosjuTQwBpkdz8XogjO90!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4"
+            },
+            {
+                id: "item068",
+                name: "丁家山堡（村里）",
+                material: "古堡",
+                period: "大庄镇",
+                grade: "丁山村",
+                description: "水洛镇西南方向，大庄镇政府驻地西南方向；北接梁山村，南邻老山沟村。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEMukMgnrjRlJ5CaN3Sz74wLJSEIcr63M.gD8J8SZZ70*v.rQ7ULdHMC5fUVycKr0vWtOmygp4WVYH1juxnWrH4U!/b&bo=xgdABq8bQxYBWRg!&rf=viewer_4"
+            },
+            {
+                id: "item069",
+                name: "丁家山堡（山上）",
+                material: "古堡",
+                period: "大庄镇",
+                grade: "丁山村",
+                description: "水洛镇西南方向，大庄镇政府驻地西南方向；北接梁山村，南邻老山沟村。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEMukMgnrjRlJ5CaN3Sz74wJuvMKyt8Sr6uBcXqqRk9D8bs*wfAmwz2HJoeGf4lF4DQ6cJXXh2LPUh6YEoLnUTSI!/b&bo=xgdABq8bQxYBOXg!&rf=viewer_4"
+            },
+            {
+                id: "item070",
+                name: "葛家堡",
+                material: "古堡",
+                period: "永宁镇",
+                grade: "葛峡村",
+                description: "水洛镇东北方向，永宁镇政府驻地东北方向，与陈家洞石窟隔山相望。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEMukMgnrjRlJ5CaN3Sz74wLTyRmAn59p0cFEKQ5AWGlkiFzQtXZJrwPDEXXXpJV47m8jN0.VOXhIPeevbQ3lXBE!/b&bo=xgdABq8bQxYBWRg!&rf=viewer_4"
+            },
+            {
+                id: "item071",
+                name: "韩家堡",
+                material: "古堡",
+                period: "韩店镇",
+                grade: "未知",
+                description: "水洛镇正东方向，韩店镇政府驻地北侧，北接永宁镇，西连良邑镇。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEMukMgnrjRlJ5CaN3Sz74wLQTLS0BqrB0vyxJP0cdJEGLXbmbGJPO8x5sFXmk5bivZQAmFnvt2gAsd*DvZrtUUI!/b&bo=xgdABq8bQxYBWRg!&rf=viewer_4"
+            },
+            {
+                id: "item072",
+                name: "花园梁堡",
+                material: "古堡",
+                period: "柳梁镇",
+                grade: "未知",
+                description: "水洛镇正北偏东方向，柳梁镇政府驻地东北方向，地处柳梁镇中部山梁地带。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrECF04US*PK8Mje1tnLRLpGkOMNy0Vc1yUADJvhIQ0Bf2s214RaPxP7H8pNH3cwbT.3tXBnN6Y0mS63go2InxJSE!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4"
+            },
+            {
+                id: "item073",
+                name: "拉连寺堡",
+                material: "古堡",
+                period: "郑河乡",
+                grade: "拉连寺村",
+                description: "水洛镇正南偏西方向，郑河乡政府驻地西南方向，地处郑河乡南部山区。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrECF04US*PK8Mje1tnLRLpGmHYDeLymCZVeFy3ciytgXl9LgGlDzUQJjs28EA5iem7OJ5czOtGYIl5WR0UkF0.gs!/b&bo=xgdABq8bQxYBWRg!&rf=viewer_4"
+            },
+            {
+                id: "item074",
+                name: "梁山堡",
+                material: "古堡",
+                period: "大庄镇",
+                grade: "梁山村",
+                description: "在庄浪县城西南方向，大庄镇政府驻地西南方向，地处大庄镇南部山区。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrECF04US*PK8Mje1tnLRLpGk3JKmJ5cCYjPNLAS3CxV7tAfGf5TC9blJKhhatOz1cQfCjJXnhRHU1sqqpayeHfKk!/b&bo=xgdABq8bQxYBWRg!&rf=viewer_4"
+            },
+            {
+                id: "item075",
+                name: "刘家堡",
+                material: "古堡",
+                period: "柳梁镇",
+                grade: "李堡村",
+                description: "水洛镇正北偏东方向，柳梁镇政府驻地东北方向，李堡村境内。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrECF04US*PK8Mje1tnLRLpGmt1RjPKvZV2XM0SS6zPiWAtGqZRr2vFAZR2js8FUVci0oRf.tnUP4HJ5Edpnkr.1U!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4"
+            },
+            {
+                id: "item076",
+                name: "柳家台堡",
+                material: "古堡",
+                period: "柳梁镇",
+                grade: "柳台村",
+                description: "水洛镇正北偏东方向，柳梁镇政府驻地东北方向，柳台村境内山台地带。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrED*HQjMX*VeVJ*GUD7X3yKggulyyjWGGLJIr3VJV8r9NA7LmzsT*glBOur88iCh0CtXwl*9kK1MJskV5mUbyR5Q!/b&bo=xgdABq8bQxYBWRg!&rf=viewer_4"
+            },
+            {
+                id: "item077",
+                name: "禄家岔堡",
+                material: "古堡",
+                period: "岳堡镇",
+                grade: "禄家岔村",
+                description: "水洛镇正北方向。岳堡镇政府驻地西北方向，禄家岔村境内沟岔地带。地处岳堡镇北部山梁沟谷区，邻近岳堡村、崔家村。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrED*HQjMX*VeVJ*GUD7X3yKjXemXSnlVUwbL.orpPZK2xXwoBsS*DmaFAfJu8yR9hRoxg4X69AMJCf5yUB1hiSSU!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4"
+            },
+            {
+                id: "item078",
+                name: "马家洼阴堡",
+                material: "古堡",
+                period: "卧龙镇",
+                grade: "阴洼村",
+                description: "庄浪县城西北方向，卧龙镇政府驻地西北方向，阴洼村阴洼堡片区。地处卧龙镇西部山梁沟谷区，邻马家村、阳洼村。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrED*HQjMX*VeVJ*GUD7X3yKju.xodhBKdxAy87Yf0iH8LrOROtVyzN51mGPLqivtro5xKbHEriCiz1r3f5YMl8is!/b&bo=xgdABq8bQxYBWRg!&rf=viewer_4"
+            },
+            {
+                id: "item079",
+                name: "马家阳堡",
+                material: "古堡",
+                period: "卧龙镇",
+                grade: "阳堡村",
+                description: "水洛镇西北方向。卧龙镇政府驻地西北方向，阳堡村阳坡山台地带。地处卧龙镇西部山梁区，与马家阴洼堡同属卧龙镇马姓聚居片区。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrED*HQjMX*VeVJ*GUD7X3yKgnYHiXRAADqzx.Vx4uzKjb78FEnVGTZG7VyedhExlVRaqS2eig0vNRhVTE9johePk!/b&bo=xgdABq8bQxYBWRg!&rf=viewer_4"
+            },
+            {
+                id: "item080",
+                name: "南阳堡",
+                material: "古堡",
+                period: "不详",
+                grade: "未知",
+                description: "水洛镇以南浅山台地。",
+                imageUrl: "http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2aBWro/TmEUgtj9EK6.7V8ajmQrEJhMkBfyoiMPatG2Gv58DNonEynk2681.u5nljj8r8YohElmQjF9zPUr6EWcYACjCJtAdtXwPwsh3vPv8lwTnS0!/b&bo=xgdABq8bQxYBSQg!&rf=viewer_4"
+            },
+        ];
+
+        // DOM 元素http://photogzmaz.photo.store.qq.com/psc?/V52glOT24AFHNr2eahEb1depUX2jT2Pw/TmEUgtj9EK
+        const itemsContainer = document.getElementById('items-container');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const resetButton = document.getElementById('reset-button');
+        const searchByNameButton = document.getElementById('search-by-name');
+        const searchByCategoryButton = document.getElementById('search-by-category');
+        const searchModeIndicator = document.getElementById('search-mode-indicator');
+        const categoryItems = document.querySelectorAll('.category-item');
+        const subcategoryItems = document.querySelectorAll('.subcategory-item');
+        const sortSelect = document.getElementById('sort-select');
+        const noResults = document.getElementById('no-results');
+        const imageViewer = document.getElementById('image-viewer');
+        const viewerImage = document.getElementById('viewer-image');
+        const viewerTitle = document.getElementById('viewer-title');
+        const viewerDescription = document.getElementById('viewer-description');
+        const closeViewer = document.getElementById('close-viewer');
+        const zoomIn = document.getElementById('zoom-in');
+        const zoomOut = document.getElementById('zoom-out');
+        const resetZoom = document.getElementById('reset-zoom');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const categorySidebar = document.getElementById('category-sidebar');
+
+        // 状态变量
+        let currentSearchMode = 'name'; // 'name' 或 'category'
+        let currentCategory = null;
+        let currentSubcategory = null;
+        let zoomLevel = 1;
+
+        // 初始化页面
+        function init() {
+            renderItems(items);
+            setupEventListeners();
+        }
+
+        // 渲染物品卡片
+        function renderItems(itemsToRender) {
+            itemsContainer.innerHTML = '';
+            
+            if (itemsToRender.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            }
+            
+            noResults.classList.add('hidden');
+            
+            itemsToRender.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-lg shadow-card hover:shadow-card-hover overflow-hidden transition-all-300 transform hover:-translate-y-1';
+                card.innerHTML = `
+                    <div class="relative overflow-hidden h-48">
+                        <img src="${item.imageUrl}" alt="${item.name}" class="w-full h-full object-cover transition-all-300 hover:scale-105 cursor-pointer">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold text-primary mb-1">${item.name}</h3>
+                        <p class="text-sm text-gray-600 mb-2">${item.period} - ${item.grade}</p>
+                        <p class="text-sm text-gray-500 line-clamp-2">${item.description}</p>
+                    </div>
+                `;
+                
+                // 添加点击事件
+                const img = card.querySelector('img');
+                img.addEventListener('click', () => openImageViewer(item));
+                
+                itemsContainer.appendChild(card);
+            });
+        }
+
+        // 设置事件监听器
+        function setupEventListeners() {
+            // 搜索按钮
+            searchButton.addEventListener('click', performSearch);
+            
+            // 重置按钮
+            resetButton.addEventListener('click', resetSearch);
+            
+            // 搜索模式切换
+            searchByNameButton.addEventListener('click', () => {
+                currentSearchMode = 'name';
+                searchModeIndicator.textContent = '当前搜索模式: 物品名称';
+                searchByNameButton.classList.add('text-accent');
+                searchByNameButton.classList.remove('text-primary');
+                searchByCategoryButton.classList.add('text-primary');
+                searchByCategoryButton.classList.remove('text-accent');
+            });
+            
+            searchByCategoryButton.addEventListener('click', () => {
+                currentSearchMode = 'category';
+                searchModeIndicator.textContent = '当前搜索模式: 物品分类';
+                searchByCategoryButton.classList.add('text-accent');
+                searchByCategoryButton.classList.remove('text-primary');
+                searchByNameButton.classList.add('text-primary');
+                searchByNameButton.classList.remove('text-accent');
+            });
+            
+            // 分类展开/折叠
+            categoryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const subcategoryList = item.nextElementSibling;
+                    const icon = item.querySelector('i');
+                    
+                    if (subcategoryList.classList.contains('hidden')) {
+                        subcategoryList.classList.remove('hidden');
+                        icon.style.transform = 'rotate(180deg)';
+                    } else {
+                        subcategoryList.classList.add('hidden');
+                        icon.style.transform = 'rotate(0)';
+                    }
+                });
+            });
+            
+            // 子分类点击
+            subcategoryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const categoryText = item.parentElement.previousElementSibling.querySelector('span').textContent;
+                    const subcategoryText = item.textContent;
+                    
+                    // 移除同一分类下的其他选中状态
+                    const siblings = Array.from(item.parentElement.children);
+                    siblings.forEach(sib => {
+                        sib.classList.remove('bg-secondary', 'text-white');
+                    });
+                    
+                    // 添加选中状态
+                    item.classList.add('bg-secondary', 'text-white');
+                    
+                    // 执行筛选
+                    filterByCategory(categoryText, subcategoryText);
+                });
+            });
+            
+            // 排序下拉框
+            sortSelect.addEventListener('change', () => {
+                const sortValue = sortSelect.value;
+                sortItems(sortValue);
+            });
+            
+            // 图片查看器
+            closeViewer.addEventListener('click', closeImageViewer);
+            zoomIn.addEventListener('click', () => {
+                zoomLevel += 0.1;
+                updateZoom();
+            });
+            zoomOut.addEventListener('click', () => {
+                if (zoomLevel > 0.5) {
+                    zoomLevel -= 0.1;
+                    updateZoom();
+                }
+            });
+            resetZoom.addEventListener('click', () => {
+                zoomLevel = 1;
+                updateZoom();
+            });
+            
+            // 点击模态框背景关闭
+            imageViewer.addEventListener('click', (e) => {
+                if (e.target === imageViewer) {
+                    closeImageViewer();
+                }
+            });
+            
+            // 移动端菜单按钮
+            mobileMenuButton.addEventListener('click', () => {
+                if (categorySidebar.classList.contains('hidden')) {
+                    categorySidebar.classList.remove('hidden');
+                } else {
+                    categorySidebar.classList.add('hidden');
+                }
+            });
+            
+            // 键盘事件
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !imageViewer.classList.contains('hidden')) {
+                    closeImageViewer();
+                }
+                if (e.key === 'Enter' && document.activeElement === searchInput) {
+                    performSearch();
+                }
+            });
+        }
+
+        // 执行搜索
+        function performSearch() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            
+            if (!searchTerm) {
+                renderItems(items);
+                return;
+            }
+            
+            let filteredItems = [];
+            
+            if (currentSearchMode === 'name') {
+                filteredItems = items.filter(item => 
+                    item.name.toLowerCase().includes(searchTerm)
+                );
+            } else {
+                filteredItems = items.filter(item => 
+                    item.material.toLowerCase().includes(searchTerm) || 
+                    item.period.toLowerCase().includes(searchTerm) ||
+                    item.grade.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // 获取当前所有选中的筛选条件
+            const selectedFilters = {};
+            subcategoryItems.forEach(item => {
+                if (item.classList.contains('bg-secondary')) {
+                    const categoryText = item.parentElement.previousElementSibling.querySelector('span').textContent;
+                    const subcategoryText = item.textContent;
+                    selectedFilters[categoryText] = subcategoryText;
+                }
+            });
+            
+            // 应用所有筛选条件
+            Object.entries(selectedFilters).forEach(([type, value]) => {
+                switch (type) {
+                    case '材质':
+                        filteredItems = filteredItems.filter(item => item.material === value);
+                        break;
+                    case '年代':
+                        filteredItems = filteredItems.filter(item => item.period === value);
+                        break;
+                    case '级别':
+                        filteredItems = filteredItems.filter(item => item.grade === value);
+                        break;
+                }
+            });
+            
+            renderItems(filteredItems);
+        }
+
+        // 重置搜索
+        function resetSearch() {
+            searchInput.value = '';
+            
+            // 移除所有选中状态
+            subcategoryItems.forEach(sub => {
+                sub.classList.remove('bg-secondary', 'text-white');
+            });
+            
+            renderItems(items);
+        }
+
+        // 按分类筛选
+        function filterByCategory(categoryType, categoryValue) {
+            // 获取当前所有选中的筛选条件
+            const selectedFilters = {};
+            
+            // 遍历所有子分类项，收集选中的筛选条件
+            subcategoryItems.forEach(item => {
+                if (item.classList.contains('bg-secondary')) {
+                    const categoryText = item.parentElement.previousElementSibling.querySelector('span').textContent;
+                    const subcategoryText = item.textContent;
+                    selectedFilters[categoryText] = subcategoryText;
+                }
+            });
+            
+            // 如果传入了新的筛选条件，更新选中状态
+            if (categoryType && categoryValue) {
+                selectedFilters[categoryType] = categoryValue;
+            }
+            
+            // 根据选中的筛选条件过滤物品
+            let filteredItems = items;
+            
+            // 应用所有筛选条件
+            Object.entries(selectedFilters).forEach(([type, value]) => {
+                switch (type) {
+                    case '材质':
+                        filteredItems = filteredItems.filter(item => item.material === value);
+                        break;
+                    case '年代':
+                        filteredItems = filteredItems.filter(item => item.period === value);
+                        break;
+                    case '级别':
+                        filteredItems = filteredItems.filter(item => item.grade === value);
+                        break;
+                }
+            });
+            
+            renderItems(filteredItems);
+        }
+
+        // 排序物品
+        function sortItems(sortValue) {
+            // 获取当前显示的物品数据
+            const displayedItems = [];
+            itemsContainer.querySelectorAll('.bg-white').forEach((card, index) => {
+                const title = card.querySelector('h3').textContent;
+                const materialSpan = card.querySelector('.bg-blue-100');
+                const material = materialSpan ? materialSpan.textContent.replace('材质: ', '') : '';
+                displayedItems.push({
+                    element: card,
+                    title,
+                    material
+                });
+            });
+            
+            switch (sortValue) {
+                case 'name-asc':
+                    displayedItems.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+                case 'name-desc':
+                    displayedItems.sort((a, b) => b.title.localeCompare(a.title));
+                    break;
+                case 'category-asc':
+                    displayedItems.sort((a, b) => a.material.localeCompare(b.material));
+                    break;
+                case 'category-desc':
+                    displayedItems.sort((a, b) => b.material.localeCompare(a.material));
+                    break;
+            }
+            
+            // 清空容器并重新添加排序后的元素
+            itemsContainer.innerHTML = '';
+            displayedItems.forEach(item => {
+                itemsContainer.appendChild(item.element);
+            });
+        }
+
+        // 打开图片查看器
+        function openImageViewer(item) {
+            viewerImage.src = item.imageUrl;
+            viewerTitle.textContent = item.name;
+            viewerDescription.textContent = `材质: ${item.material} | 年代: ${item.period} | 级别: ${item.grade}\n${item.description}`;
+            imageViewer.classList.remove('hidden');
+            zoomLevel = 1;
+            updateZoom();
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 关闭图片查看器
+        function closeImageViewer() {
+            imageViewer.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // 更新缩放
+        function updateZoom() {
+            viewerImage.style.transform = `scale(${zoomLevel})`;
+        }
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
